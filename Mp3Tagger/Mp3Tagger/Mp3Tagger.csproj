@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="IO\FilesProvider.cs" />
     <Compile Include="Models\Composition.cs" />
+    <Compile Include="Models\DataGridComposition.cs" />
     <Compile Include="Models\IPictureModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

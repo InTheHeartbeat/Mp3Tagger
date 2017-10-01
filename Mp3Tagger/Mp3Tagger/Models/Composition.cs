@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TagLib;
 using TagLib.Mpeg;
 
 namespace Mp3Tagger.Models
@@ -29,7 +30,7 @@ namespace Mp3Tagger.Models
         public string Lyrics { get; set; }
         public int Track { get; set; }
         public int TrackCount { get; set; }
-        public IPictureModel[] Pictures { get; set; }
+        public IPicture[] Pictures { get; set; }
 
 
         public Composition(AudioFile audioFile)
@@ -49,7 +50,7 @@ namespace Mp3Tagger.Models
             Grouping = audioFile.Tag.Grouping ?? String.Empty;
             Lyrics = audioFile.Tag.Lyrics ?? String.Empty;
             Performer = audioFile.Tag.JoinedPerformers ?? String.Empty;
-            Pictures = audioFile.Tag.Pictures as IPictureModel[];
+            Pictures = audioFile.Tag.Pictures;
             Track = (int)audioFile.Tag.Track;
             TrackCount = (int)audioFile.Tag.TrackCount;
             Year = (int)audioFile.Tag.Year;

@@ -123,12 +123,21 @@
             // 
             // compositionsDataGrid
             // 
+            this.compositionsDataGrid.AllowUserToAddRows = false;
+            this.compositionsDataGrid.AllowUserToDeleteRows = false;
+            this.compositionsDataGrid.AllowUserToOrderColumns = true;
             this.compositionsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.compositionsDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.compositionsDataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.compositionsDataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.compositionsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.compositionsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.compositionsDataGrid.Location = new System.Drawing.Point(3, 3);
+            this.compositionsDataGrid.MultiSelect = false;
             this.compositionsDataGrid.Name = "compositionsDataGrid";
+            this.compositionsDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.compositionsDataGrid.Size = new System.Drawing.Size(604, 402);
             this.compositionsDataGrid.TabIndex = 0;
             // 
