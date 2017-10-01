@@ -35,15 +35,18 @@
             this.statusBarToolStrip = new System.Windows.Forms.ToolStrip();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.compositionsDataGrid = new System.Windows.Forms.DataGridView();
+            this.statusBarProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.statusBarProgressLabel = new System.Windows.Forms.ToolStripLabel();
             this.mainToolStrip.SuspendLayout();
+            this.statusBarToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.compositionsDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -73,11 +76,16 @@
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // statusBarToolStrip
             // 
+            this.statusBarToolStrip.BackColor = System.Drawing.Color.LightGray;
             this.statusBarToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.statusBarToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.statusBarToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBarProgressBar,
+            this.statusBarProgressLabel});
             this.statusBarToolStrip.Location = new System.Drawing.Point(0, 536);
             this.statusBarToolStrip.Name = "statusBarToolStrip";
             this.statusBarToolStrip.Size = new System.Drawing.Size(784, 25);
@@ -108,21 +116,36 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel1.Controls.Add(this.compositionsDataGrid);
             this.splitContainer1.Size = new System.Drawing.Size(784, 408);
             this.splitContainer1.SplitterDistance = 610;
             this.splitContainer1.TabIndex = 0;
             // 
-            // dataGridView1
+            // compositionsDataGrid
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.compositionsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(604, 402);
-            this.dataGridView1.TabIndex = 0;
+            this.compositionsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.compositionsDataGrid.Location = new System.Drawing.Point(3, 3);
+            this.compositionsDataGrid.Name = "compositionsDataGrid";
+            this.compositionsDataGrid.Size = new System.Drawing.Size(604, 402);
+            this.compositionsDataGrid.TabIndex = 0;
+            // 
+            // statusBarProgressBar
+            // 
+            this.statusBarProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.statusBarProgressBar.AutoSize = false;
+            this.statusBarProgressBar.Margin = new System.Windows.Forms.Padding(1, 2, 10, 1);
+            this.statusBarProgressBar.Name = "statusBarProgressBar";
+            this.statusBarProgressBar.Size = new System.Drawing.Size(100, 18);
+            // 
+            // statusBarProgressLabel
+            // 
+            this.statusBarProgressLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.statusBarProgressLabel.Margin = new System.Windows.Forms.Padding(0, 1, 3, 2);
+            this.statusBarProgressLabel.Name = "statusBarProgressLabel";
+            this.statusBarProgressLabel.Size = new System.Drawing.Size(0, 22);
             // 
             // Form1
             // 
@@ -136,13 +159,15 @@
             this.Text = "Mp3Tagger";
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
+            this.statusBarToolStrip.ResumeLayout(false);
+            this.statusBarToolStrip.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.compositionsDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,7 +181,9 @@
         private System.Windows.Forms.ToolStrip statusBarToolStrip;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView compositionsDataGrid;
+        private System.Windows.Forms.ToolStripProgressBar statusBarProgressBar;
+        private System.Windows.Forms.ToolStripLabel statusBarProgressLabel;
     }
 }
 
