@@ -13,6 +13,7 @@ namespace Mp3Tagger.Features
 {
     public class CompositionsLoader : IFeature
     {
+        public string Name { get; set; }
         public string Path { get; private set; }
         public List<KeyValuePair<FileInfo, Exception>> BadFiles { get; set; }
 
@@ -30,7 +31,8 @@ namespace Mp3Tagger.Features
 
         private List<string> files;
         public CompositionsLoader()
-        {            
+        {
+            Name = "Compostions loading";
             BadFiles = new List<KeyValuePair<FileInfo, Exception>>();
         }
 
@@ -38,7 +40,7 @@ namespace Mp3Tagger.Features
         {
             Path = path;
             files = await FilesProvider.GetFiles(Path, true);
-        }
+        }        
 
         public async void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressCallback, Action<IFeature> progressCompletedCallback)
         {

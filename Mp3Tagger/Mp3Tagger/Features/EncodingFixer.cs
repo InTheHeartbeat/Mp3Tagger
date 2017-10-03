@@ -9,7 +9,14 @@ using Mp3Tagger.Models;
 namespace Mp3Tagger.Features
 {
     public class EncodingFixer : IFeature
-    {        
+    {
+        public string Name { get; set; }
+
+        public EncodingFixer()
+        {
+            Name = "Encoding fixing";
+        }
+
         public async void ApplyToList(List<Composition> list, Action<IFeature,int,int> progressCallback, Action<IFeature> progressCompletedCallback)
         {
             await Task.Run(() =>

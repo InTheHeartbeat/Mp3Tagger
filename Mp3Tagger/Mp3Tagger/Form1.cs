@@ -34,11 +34,13 @@ namespace Mp3Tagger
             compositionsDataGrid.DataSource = new List<DataGridComposition>();
         }
 
-        private void OnPresenterFeatureWorkCompleted(IFeature obj)
+        private void OnPresenterFeatureWorkCompleted(IFeature feature)
         {
             statusBarStatusLabel.Text = "Ready";
             statusBarProgressBar.Visible = false;
             statusBarProgressLabel.Text = string.Empty;
+
+            listBoxHistory.Items.Add(feature.Name);
 
             InitializeDataGrid();
         }
