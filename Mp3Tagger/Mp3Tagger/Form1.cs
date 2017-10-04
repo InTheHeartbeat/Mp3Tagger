@@ -26,12 +26,21 @@ namespace Mp3Tagger
         {
             InitializeComponent();      
             presenter = new MainPresenter(this);
-            
+
+            InitializeCheckedListBoxApplyToPatternRemover();
+
             presenter.FeatureWorkStarted += OnPresenterFeatureWorkStarted;
             presenter.FeatureProgressUpdated += OnPresenterFeatureProgressUpdated;
             presenter.FeatureWorkCompleted += OnPresenterFeatureWorkCompleted;
 
             compositionsDataGrid.DataSource = new List<DataGridComposition>();
+        }
+
+        private void InitializeCheckedListBoxApplyToPatternRemover()
+        {
+            checkedListBoxApplyToPatternRemover.DataSource = presenter.PatternRemoverSettings.ApplyToSettings;
+            checkedListBoxApplyToPatternRemover.DisplayMember = "FieldName";
+            checkedListBoxApplyToPatternRemover.ValueMember = "IsApply";
         }
 
         private void OnPresenterFeatureWorkCompleted(IFeature feature)
@@ -141,14 +150,14 @@ namespace Mp3Tagger
                         .FirstOrDefault(
                             c => c.Path == (string)compositionsDataGrid["Path", compositionsDataGrid.SelectedRows[0].Index]
                                      .Value)
-                    , "AlbumArtists", false, DataSourceUpdateMode.OnPropertyChanged);
+                    , "JoinedAlbumArtists", false, DataSourceUpdateMode.OnPropertyChanged);
 
                 textBoxComposers.DataBindings.Clear();
                 textBoxComposers.DataBindings.Add("Text", presenter.Compositions
                         .FirstOrDefault(
                             c => c.Path == (string)compositionsDataGrid["Path", compositionsDataGrid.SelectedRows[0].Index]
                                      .Value)
-                    , "Composers", false, DataSourceUpdateMode.OnPropertyChanged);
+                    , "JoinedComposers", false, DataSourceUpdateMode.OnPropertyChanged);
 
                 textBoxConductor.DataBindings.Clear();
                 textBoxConductor.DataBindings.Add("Text", presenter.Compositions
@@ -183,7 +192,7 @@ namespace Mp3Tagger
                         .FirstOrDefault(
                             c => c.Path == (string)compositionsDataGrid["Path", compositionsDataGrid.SelectedRows[0].Index]
                                      .Value)
-                    , "Genres", false, DataSourceUpdateMode.OnPropertyChanged);
+                    , "JoinedGenres", false, DataSourceUpdateMode.OnPropertyChanged);
 
                 textBoxGrouping.DataBindings.Clear();
                 textBoxGrouping.DataBindings.Add("Text", presenter.Compositions

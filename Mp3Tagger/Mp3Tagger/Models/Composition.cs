@@ -18,14 +18,33 @@ namespace Mp3Tagger.Models
         public int Year { get; set; }
         public string Path { get; set; }
         public string[] AlbumArtists { get; set; }
+
+        public string JoinedAlbumArtists
+        {
+            get { return string.Join(", ", AlbumArtists); }
+            set { AlbumArtists = value.Split(','); }
+        }
+
         public string AmazonId { get; set; }
         public string Comment { get; set; }
         public string[] Composers { get; set; }
+
+        public string JoinedComposers
+        {
+            get { return string.Join(", ", Composers); }
+            set { Composers = value.Split(','); }
+        }
         public string Conductor { get; set; }
         public string Copyright { get; set; }
         public int Disc { get; set; }
         public int DiscCount { get; set; }
         public string[] Genres { get; set; }
+
+        public string JoinedGenres
+        {
+            get { return string.Join(", ", Genres); }
+            set { Genres = value.Split(','); }
+        }
         public string Grouping { get; set; }
         public string Lyrics { get; set; }
         public int Track { get; set; }

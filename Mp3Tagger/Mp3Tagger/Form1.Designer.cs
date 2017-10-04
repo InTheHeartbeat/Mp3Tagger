@@ -85,6 +85,8 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label20 = new System.Windows.Forms.Label();
             this.listBoxHistory = new System.Windows.Forms.ListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkedListBoxApplyToPatternRemover = new System.Windows.Forms.CheckedListBox();
             this.mainToolStrip.SuspendLayout();
             this.statusBarToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -99,9 +101,11 @@
             this.tabControl1.SuspendLayout();
             this.tabPageEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -683,12 +687,13 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(195, 378);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Pattern remover";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // splitContainer3
@@ -726,6 +731,31 @@
             this.listBoxHistory.Size = new System.Drawing.Size(134, 69);
             this.listBoxHistory.TabIndex = 1;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkedListBoxApplyToPatternRemover);
+            this.groupBox1.Location = new System.Drawing.Point(6, 200);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(7);
+            this.groupBox1.Size = new System.Drawing.Size(185, 172);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Apply to";
+            // 
+            // checkedListBoxApplyToPatternRemover
+            // 
+            this.checkedListBoxApplyToPatternRemover.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBoxApplyToPatternRemover.CheckOnClick = true;
+            this.checkedListBoxApplyToPatternRemover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBoxApplyToPatternRemover.FormattingEnabled = true;
+            this.checkedListBoxApplyToPatternRemover.Location = new System.Drawing.Point(7, 20);
+            this.checkedListBoxApplyToPatternRemover.Name = "checkedListBoxApplyToPatternRemover";
+            this.checkedListBoxApplyToPatternRemover.Size = new System.Drawing.Size(171, 145);
+            this.checkedListBoxApplyToPatternRemover.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -753,10 +783,12 @@
             this.tabPageEdit.ResumeLayout(false);
             this.tabPageEdit.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -820,6 +852,8 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.ListBox listBoxHistory;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBoxApplyToPatternRemover;
     }
 }
 

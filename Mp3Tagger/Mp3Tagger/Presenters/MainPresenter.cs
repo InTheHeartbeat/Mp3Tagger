@@ -6,6 +6,7 @@ using Mp3Tagger.Features;
 using Mp3Tagger.Interfaces;
 using Mp3Tagger.IO;
 using Mp3Tagger.Models;
+using Mp3Tagger.Settings;
 using TagLib.Mpeg;
 
 namespace Mp3Tagger.Presenters
@@ -18,10 +19,15 @@ namespace Mp3Tagger.Presenters
         public event Action<IFeature> FeatureWorkCompleted;
         public event Action<IFeature, int, int> FeatureProgressUpdated;
 
+        public PatternRemoverSettings PatternRemoverSettings => patternRemover.PatternRemoverSettings;
+
         private IView _view;
 
         private CompositionsLoader compositionsLoader;
         private EncodingFixer encodingFixer;
+        private PatternRemover patternRemover;
+
+
 
         public MainPresenter(IView view)
         {
@@ -33,6 +39,8 @@ namespace Mp3Tagger.Presenters
         {
             encodingFixer = new EncodingFixer();
             compositionsLoader = new CompositionsLoader();
+            patternRemover = new PatternRemover();
+            patternRemover.Initialize(new PatternRemoverSettings());
         }
 
         public async void OpenCompositions(string path)
