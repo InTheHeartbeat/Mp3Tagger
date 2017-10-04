@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mp3Tagger.Features;
+using Mp3Tagger.Features.Helpers;
 using Mp3Tagger.Interfaces;
 using Mp3Tagger.IO;
 using Mp3Tagger.Models;
@@ -31,9 +32,17 @@ namespace Mp3Tagger
 
             presenter.FeatureWorkStarted += OnPresenterFeatureWorkStarted;
             presenter.FeatureProgressUpdated += OnPresenterFeatureProgressUpdated;
-            presenter.FeatureWorkCompleted += OnPresenterFeatureWorkCompleted;
+            presenter.FeatureWorkCompleted += OnPresenterFeatureWorkCompleted;            
 
             compositionsDataGrid.DataSource = new List<DataGridComposition>();
+            
+            listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList),null);
+            listBoxPatternRemoverBrackets.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.BracketsList), null);
+
+            checkBoxRemoveByBrackets.DataBindings.Add("Checked", presenter.PatternRemoverSettings,
+                "RemoveByBracketsList");
+            checkBoxRemoveByPatternList.DataBindings.Add("Checked", presenter.PatternRemoverSettings,
+                "RemoveByPatternList");
         }
 
         private void InitializeCheckedListBoxApplyToPatternRemover()
@@ -41,6 +50,11 @@ namespace Mp3Tagger
             checkedListBoxApplyToPatternRemover.DataSource = presenter.PatternRemoverSettings.ApplyToSettings;
             checkedListBoxApplyToPatternRemover.DisplayMember = "FieldName";
             checkedListBoxApplyToPatternRemover.ValueMember = "IsApply";
+            for (var i = 0; i < checkedListBoxApplyToPatternRemover.Items.Count; i++)
+            {
+                checkedListBoxApplyToPatternRemover.SetItemChecked(i,
+                    presenter.PatternRemoverSettings.ApplyToSettings[i].IsApply);
+            }
         }
 
         private void OnPresenterFeatureWorkCompleted(IFeature feature)
@@ -122,6 +136,7 @@ namespace Mp3Tagger
 
         private void compositionsDataGrid_SelectionChanged(object sender, EventArgs e)
         {
+            
             if (compositionsDataGrid.SelectedRows.Count > 0)
             {
                 textBoxTitle.DataBindings.Clear();
@@ -193,14 +208,7 @@ namespace Mp3Tagger
                             c => c.Path == (string)compositionsDataGrid["Path", compositionsDataGrid.SelectedRows[0].Index]
                                      .Value)
                     , "JoinedGenres", false, DataSourceUpdateMode.OnPropertyChanged);
-
-                textBoxGrouping.DataBindings.Clear();
-                textBoxGrouping.DataBindings.Add("Text", presenter.Compositions
-                        .FirstOrDefault(
-                            c => c.Path == (string)compositionsDataGrid["Path", compositionsDataGrid.SelectedRows[0].Index]
-                                     .Value)
-                    , "Grouping", false, DataSourceUpdateMode.OnPropertyChanged);
-
+                
                 textBoxLyrics.DataBindings.Clear();
                 textBoxLyrics.DataBindings.Add("Text", presenter.Compositions
                         .FirstOrDefault(
@@ -242,7 +250,7 @@ namespace Mp3Tagger
             }
         }
         private void tabPageEdit_Resize(object sender, EventArgs e)
-        {           
+        {        
             int minSize = tabPageEdit.ClientSize.Width - pictureBox1.Margin.Right > tabPageEdit.ClientSize.Height-pictureBox1.Margin.Right ? tabPageEdit.ClientSize.Height - pictureBox1.Margin.Right : tabPageEdit.ClientSize.Width - pictureBox1.Margin.Right;            
             pictureBox1.Height = minSize;
             pictureBox1.Width = minSize;
@@ -330,12 +338,6 @@ namespace Mp3Tagger
                     compositionsDataGrid["Genres", selectedRowIndex].Value = textBoxGenres.Text;
                 return;
             }
-            if (name == "textBoxGrouping")
-            {
-                if ((string)compositionsDataGrid["Grouping", selectedRowIndex].Value != textBoxGrouping.Text)
-                    compositionsDataGrid["Grouping", selectedRowIndex].Value = textBoxGrouping.Text;
-                return;
-            }
             if (name == "textBoxTrack")
             {
                 if ((Int32)compositionsDataGrid["Track", selectedRowIndex].Value != Int32.Parse(textBoxTrack.Text))
@@ -347,7 +349,7 @@ namespace Mp3Tagger
                 if ((Int32)compositionsDataGrid["TrackCount", selectedRowIndex].Value != Int32.Parse(textBoxTrackCount.Text))
                     compositionsDataGrid["TrackCount", selectedRowIndex].Value = Int32.Parse(textBoxTrackCount.Text);
                 return;
-            }      
+            }     
         }
 
         private void fixEncodingAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -367,6 +369,87 @@ namespace Mp3Tagger
                 selected.Add(presenter.Compositions.FirstOrDefault(t=>t.Path == (string)compositionsDataGrid["Path",row.Index].Value));
             }
             presenter.FixSelectedEncoding(selected);
+        }
+
+        private void buttonPatternRemoverAddPattern_Click(object sender, EventArgs e)
+        {
+            presenter.PatternRemoverSettings.PatternList.Add(textBoxPatternRemoverNewPattern.Text);
+            listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList), null);
+        }
+
+        private void textBoxPatternRemoverNewPattern_TextChanged(object sender, EventArgs e)
+        {
+            buttonPatternRemoverAddPattern.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
+        }
+
+        private void buttonPatternRemoverRemovePattern_Click(object sender, EventArgs e)
+        {
+            presenter.PatternRemoverSettings.PatternList.Remove((string)listBoxPatternRemoverPatterns.SelectedItem);
+            listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList), null);
+        }
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+     
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonPatternRemoverAddBrackets_Click(object sender, EventArgs e)
+        {
+            presenter.PatternRemoverSettings.BracketsList.Add(textBoxPatternRemoverNewBrackets.Text);
+            listBoxPatternRemoverBrackets.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.BracketsList), null);
+        }
+
+        private void buttonPatternRemoverRemoveBrackets_Click(object sender, EventArgs e)
+        {
+            presenter.PatternRemoverSettings.BracketsList.Remove((string)listBoxPatternRemoverBrackets.SelectedItem);
+            listBoxPatternRemoverBrackets.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.BracketsList), null);
+        }
+
+        private void textBoxPatternRemoverNewBrackets_TextChanged(object sender, EventArgs e)
+        {
+            buttonPatternRemoverAddBrackets.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonPatternRemoverApply_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you want apply pattern remover?", "Question",
+                MessageBoxButtons.YesNo);
+            if(result != DialogResult.Yes)return;
+            
+            checkedListBoxApplyToPatternRemover.CheckedItems
+                .Cast<PatternRemoverApplyTo>().ToList().ForEach(cp => presenter.PatternRemoverSettings.ApplyToSettings
+                .Where(ps => cp.FieldName == ps.FieldName)
+                .ToList()
+                .ForEach(cpps => cpps.IsApply = true));
+
+            presenter.ApplyPatternRemover();
+
+        }
+
+        private void checkBoxRemoveBy_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxPRemoverBrackets.Enabled = checkBoxRemoveByBrackets.Checked;
+            groupBoxPRemoverPatterns.Enabled = checkBoxRemoveByPatternList.Checked;
         }
     }
 }

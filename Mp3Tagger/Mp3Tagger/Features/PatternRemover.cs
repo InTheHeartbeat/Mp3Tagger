@@ -28,20 +28,22 @@ namespace Mp3Tagger.Features
             PatternRemoverSettings = settings;
         }
 
-        public void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressCallback, Action<IFeature> progressCompletedCallback)
+        public void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
         {
-            foreach (Composition composition in list)
-            {
-                ApplyToComposition(composition);
+            for (var i = 0; i < list.Count; i++)
+            {                
+                ApplyToComposition(list[i]);
+                progressUpdatedCallback(this, i, list.Count);
             }
+            progressCompletedCallback(this);
         }        
 
         public void ApplyToComposition(Composition composition)
         {
-            foreach (PropertyInfo propertyInfo in composition.GetType().GetProperties())
+            foreach (PropertyInfo propertyInfo in composition.GetType().GetProperties().Where(p=>p.PropertyType == typeof(string)))
             {
                 PatternRemoverApplyTo removerApplyTo =
-                    PatternRemoverSettings.ApplyToSettings.FirstOrDefault(s => s.FieldName == propertyInfo.Name);
+                    PatternRemoverSettings.ApplyToSettings.FirstOrDefault(s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
                 if (removerApplyTo != null && removerApplyTo.IsApply)
                 {
                     if (PatternRemoverSettings.RemoveByPatternList)
@@ -65,88 +67,7 @@ namespace Mp3Tagger.Features
                                         .GetValue(composition)));
                     }
                 }
-            }
-
-
-            /*
-            if (patternRemoverSettings.ApplyToSettings.FirstOrDefault(s=>s.FieldName==""))
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Album); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Album); }
-            }
-            if (patternRemoverSettings.ApplyToComment)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Comment); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Comment); }
-            }
-            if (patternRemoverSettings.ApplyToConductor)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Conductor); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Conductor); }
-            }
-            if (patternRemoverSettings.ApplyToCopyright)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Copyright); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Copyright); }
-            }
-            if (patternRemoverSettings.ApplyToLyrics)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Lyrics); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Lyrics); }
-            }
-            if (patternRemoverSettings.ApplyToGrouping)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Grouping); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Grouping); }
-            }
-            if (patternRemoverSettings.ApplyToTitle)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Title); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Title); }
-            }
-            if (patternRemoverSettings.ApplyToPerformer)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { CleanStringByPatternList(composition.Performer); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { CleanStringByBrackets(composition.Performer); }
-            }
-
-            if (patternRemoverSettings.ApplyToAlbumArtists)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { composition.AlbumArtists.ToList().ForEach(CleanStringByPatternList); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { composition.AlbumArtists.ToList().ForEach(CleanStringByBrackets); }
-            }
-            if (patternRemoverSettings.ApplyToComposers)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { composition.Composers.ToList().ForEach(CleanStringByPatternList); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { composition.Composers.ToList().ForEach(CleanStringByBrackets); }
-            }
-            if (patternRemoverSettings.ApplyToGenres)
-            {
-                if (patternRemoverSettings.RemoveByPatternList)
-                { composition.Genres.ToList().ForEach(CleanStringByPatternList); }
-                if (patternRemoverSettings.RemoveByBracketsList)
-                { composition.Genres.ToList().ForEach(CleanStringByBrackets); }
-            }*/
+            }                      
         }
 
         private string CleanStringByPatternList(string data)
@@ -163,8 +84,7 @@ namespace Mp3Tagger.Features
         {
             foreach (string pattern in PatternRemoverSettings.BracketsList)
             {
-                Regex regex = new Regex("\\" + pattern.First() + @"\w*\D*?" + "\\" + pattern.Last());
-                //replaced += regex.Matches(data).Count;
+                Regex regex = new Regex("\\" + pattern.First() + @"(.*?)" + "\\" + pattern.Last());                
                 data = regex.Replace(data, "");
             }
             return data;

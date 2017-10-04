@@ -13,8 +13,8 @@ namespace Mp3Tagger.Presenters
 {
     public sealed class MainPresenter : IPresenter
     {
-        public List<Composition> Compositions;                
-
+        public List<Composition> Compositions;
+                
         public event Action<IFeature, int> FeatureWorkStarted;
         public event Action<IFeature> FeatureWorkCompleted;
         public event Action<IFeature, int, int> FeatureProgressUpdated;
@@ -63,6 +63,13 @@ namespace Mp3Tagger.Presenters
             encodingFixer.ApplyToList(selected,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
         }
 
+        public async void ApplyPatternRemover()
+        {
+            OnFeatureWorkStarted(patternRemover,Compositions.Count);
+            patternRemover.Initialize(PatternRemoverSettings);
+            patternRemover.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+        }
+
         private void OnFeatureWorkStarted(IFeature feature,int operationCount)
         {
             FeatureWorkStarted?.Invoke(feature,operationCount);
@@ -76,6 +83,6 @@ namespace Mp3Tagger.Presenters
         private void OnFeatureProgressUpdated(IFeature feature, int performed, int of)
         {
             FeatureProgressUpdated?.Invoke(feature, performed, of);
-        }
+        }        
     }
 }

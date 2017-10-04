@@ -17,14 +17,14 @@ namespace Mp3Tagger.Features
             Name = "Encoding fixing";
         }
 
-        public async void ApplyToList(List<Composition> list, Action<IFeature,int,int> progressCallback, Action<IFeature> progressCompletedCallback)
+        public async void ApplyToList(List<Composition> list, Action<IFeature,int,int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
         {
             await Task.Run(() =>
             {
                 for (var index = 0; index < list.Count; index++)
                 {
                     ApplyToComposition(list[index]);
-                    progressCallback(this, index, list.Count);
+                    progressUpdatedCallback(this, index, list.Count);
                 }
             });
             progressCompletedCallback(this);

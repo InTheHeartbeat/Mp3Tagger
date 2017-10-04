@@ -42,7 +42,7 @@ namespace Mp3Tagger.Features
             files = await FilesProvider.GetFiles(Path, true);
         }        
 
-        public async void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressCallback, Action<IFeature> progressCompletedCallback)
+        public async void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
         {
             if(string.IsNullOrWhiteSpace(Path) || files == null)
             {throw new ArgumentException("First you need to initialize path!");}
@@ -56,7 +56,7 @@ namespace Mp3Tagger.Features
                     {
                         Composition composition = new Composition(new AudioFile(compositionPath));
                         list.Add(composition);
-                        progressCallback(this,index, files.Count);
+                        progressUpdatedCallback(this,index, files.Count);
                     }
                     catch (Exception e)
                     {
