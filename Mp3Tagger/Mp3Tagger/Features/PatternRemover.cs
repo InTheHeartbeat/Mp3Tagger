@@ -28,18 +28,21 @@ namespace Mp3Tagger.Features
             PatternRemoverSettings = settings;
         }
 
-        public void ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
+        public async Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
         {
-            for (var i = 0; i < list.Count; i++)
-            {                
-                ApplyToComposition(list[i]);
-                progressUpdatedCallback(this, i, list.Count);
-            }
+            await Task.Run(() =>
+            {
+                for (var i = 0; i < list.Count; i++)
+                {
+                    ApplyToComposition(list[i]);
+                    progressUpdatedCallback(this, i, list.Count);
+                }
+            });
             progressCompletedCallback(this);
         }        
 
         public void ApplyToComposition(Composition composition)
-        {
+        {            
             foreach (PropertyInfo propertyInfo in composition.GetType().GetProperties().Where(p=>p.PropertyType == typeof(string)))
             {
                 PatternRemoverApplyTo removerApplyTo =
@@ -72,20 +75,28 @@ namespace Mp3Tagger.Features
 
         private string CleanStringByPatternList(string data)
         {
-            foreach (string pattern in PatternRemoverSettings.PatternList)
+            if (!string.IsNullOrWhiteSpace(data))
             {
-                if (data.Contains(pattern))
-                { data = data.Replace(pattern, ""); }
+                foreach (string pattern in PatternRemoverSettings.PatternList)
+                {
+                    if (data.Contains(pattern))
+                    {
+                        data = data.Replace(pattern, "");
+                    }
+                }
             }
             return data;
         }
 
         private string CleanStringByBrackets(string data)
         {
-            foreach (string pattern in PatternRemoverSettings.BracketsList)
+            if (!string.IsNullOrWhiteSpace(data))
             {
-                Regex regex = new Regex("\\" + pattern.First() + @"(.*?)" + "\\" + pattern.Last());                
-                data = regex.Replace(data, "");
+                foreach (string pattern in PatternRemoverSettings.BracketsList)
+                {
+                    Regex regex = new Regex("\\" + pattern.First() + @"(.*?)" + "\\" + pattern.Last());
+                    data = regex.Replace(data, "");
+                }
             }
             return data;
         }

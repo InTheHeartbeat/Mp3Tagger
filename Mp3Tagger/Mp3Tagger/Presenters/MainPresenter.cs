@@ -20,13 +20,14 @@ namespace Mp3Tagger.Presenters
         public event Action<IFeature, int, int> FeatureProgressUpdated;
 
         public PatternRemoverSettings PatternRemoverSettings => patternRemover.PatternRemoverSettings;
+        public NormalizerSettings NormalizerSettings => normalizer.Settings;
 
         private IView _view;
 
         private CompositionsLoader compositionsLoader;
         private EncodingFixer encodingFixer;
         private PatternRemover patternRemover;
-
+        private Normalizer normalizer;
 
 
         public MainPresenter(IView view)
@@ -41,6 +42,8 @@ namespace Mp3Tagger.Presenters
             compositionsLoader = new CompositionsLoader();
             patternRemover = new PatternRemover();
             patternRemover.Initialize(new PatternRemoverSettings());
+            normalizer = new Normalizer();
+            normalizer.Initialize(new NormalizerSettings());
         }
 
         public async void OpenCompositions(string path)
@@ -48,27 +51,33 @@ namespace Mp3Tagger.Presenters
             Compositions = new List<Composition>();            
             await compositionsLoader.Initialize(path);
             OnFeatureWorkStarted(compositionsLoader,compositionsLoader.FilesCount);
-            compositionsLoader.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+            await compositionsLoader.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
         }               
 
         public async void FixAllEncoding()
         {
             OnFeatureWorkStarted(encodingFixer,Compositions.Count);
-            encodingFixer.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
+            await encodingFixer.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
         }
 
         public async void FixSelectedEncoding(List<Composition> selected)
         {
             OnFeatureWorkStarted(encodingFixer,selected.Count);
-            encodingFixer.ApplyToList(selected,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+            await encodingFixer.ApplyToList(selected,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
         }
 
         public async void ApplyPatternRemover()
         {
-            OnFeatureWorkStarted(patternRemover,Compositions.Count);
-            patternRemover.Initialize(PatternRemoverSettings);
-            patternRemover.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+            OnFeatureWorkStarted(patternRemover,Compositions.Count);            
+            await patternRemover.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
         }
+
+        public async void ApplyNormalizer()
+        {
+            OnFeatureWorkStarted(patternRemover,Compositions.Count);
+            await normalizer.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
+        }
+
 
         private void OnFeatureWorkStarted(IFeature feature,int operationCount)
         {

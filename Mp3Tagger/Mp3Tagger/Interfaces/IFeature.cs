@@ -10,7 +10,7 @@ namespace Mp3Tagger.Interfaces
     public interface IFeature
     {
         string Name { get; set; }
-        void ApplyToList(List<Composition> list, Action<IFeature,int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback);
+        Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback);
         void ApplyToComposition(Composition composition);        
     }
 }

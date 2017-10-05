@@ -20,5 +20,39 @@ namespace Mp3Tagger.Extensions
             }
             return result;
         }
+
+        public static string AllWordsUpper(this string data)
+        {
+            string lookup = " \r\n\t";
+            StringBuilder sb = new StringBuilder(data);
+
+            if (sb.Length > 0 && char.IsLetter(sb[0]))
+                sb[0] = char.ToUpper(sb[0]);
+
+            for (int i = 1; i < sb.Length; i++)
+            {
+                char ch = sb[i];
+                if (lookup.Contains(sb[i - 1]) && char.IsLetter(ch))
+                    sb[i] = char.ToUpper(ch);
+            }
+            return sb.ToString();
+        }
+
+        public static string FirstWordUpper(this string data)
+        {
+            string lookup = " \r\n\t";
+            StringBuilder sb = new StringBuilder(data);
+
+            if (sb.Length > 0 && char.IsLetter(sb[0]))
+                sb[0] = char.ToUpper(sb[0]);
+
+            for (int i = 1; i < sb.Length; i++)
+            {
+                char ch = sb[i];
+                if (lookup.Contains(sb[i - 1]) && char.IsLetter(ch))
+                    sb[i] = char.ToLower(ch);
+            }
+            return sb.ToString();
+        }
     }
 }

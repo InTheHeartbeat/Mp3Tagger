@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Mp3Tagger.Enums;
 using Mp3Tagger.Features;
 using Mp3Tagger.Features.Helpers;
 using Mp3Tagger.Interfaces;
 using Mp3Tagger.IO;
 using Mp3Tagger.Models;
 using Mp3Tagger.Presenters;
+using Mp3Tagger.Settings;
 using TagLib;
 using TagLib.Mpeg;
 using TextBox = System.Windows.Forms.TextBox;
@@ -43,6 +45,16 @@ namespace Mp3Tagger
                 "RemoveByBracketsList");
             checkBoxRemoveByPatternList.DataBindings.Add("Checked", presenter.PatternRemoverSettings,
                 "RemoveByPatternList");
+
+            checkBoxNormalizerTrimming.DataBindings.Add("Checked", presenter.NormalizerSettings, "Trimming");
+            checkBoxNormalizerChangeCase.DataBindings.Add("Checked", presenter.NormalizerSettings, "ChangeCase");
+            checkBoxNormalizerRemoveChars.DataBindings.Add("Checked", presenter.NormalizerSettings, "RemoveChars");
+
+            groupBoxPRemoverBrackets.DataBindings.Add("Enabled", checkBoxRemoveByBrackets, "Checked");
+            groupBoxPRemoverPatterns.DataBindings.Add("Enabled", checkBoxRemoveByPatternList, "Checked");
+
+            groupBoxNormalizerChangeCase.DataBindings.Add("Enabled", checkBoxNormalizerChangeCase, "Checked");
+            textBoxNormalizerChars.DataBindings.Add("Enabled", checkBoxNormalizerRemoveChars, "Checked");
         }
 
         private void InitializeCheckedListBoxApplyToPatternRemover()
@@ -254,7 +266,8 @@ namespace Mp3Tagger
             int minSize = tabPageEdit.ClientSize.Width - pictureBox1.Margin.Right > tabPageEdit.ClientSize.Height-pictureBox1.Margin.Right ? tabPageEdit.ClientSize.Height - pictureBox1.Margin.Right : tabPageEdit.ClientSize.Width - pictureBox1.Margin.Right;            
             pictureBox1.Height = minSize;
             pictureBox1.Width = minSize;
-        }   
+        }
+
         private void textBox_TextChanged(object sender, EventArgs e)
         {
             string name = "";
@@ -388,16 +401,6 @@ namespace Mp3Tagger
             listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList), null);
         }
 
-        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-     
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonPatternRemoverAddBrackets_Click(object sender, EventArgs e)
         {
             presenter.PatternRemoverSettings.BracketsList.Add(textBoxPatternRemoverNewBrackets.Text);
@@ -415,21 +418,6 @@ namespace Mp3Tagger
             buttonPatternRemoverAddBrackets.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonPatternRemoverApply_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want apply pattern remover?", "Question",
@@ -445,11 +433,19 @@ namespace Mp3Tagger
             presenter.ApplyPatternRemover();
 
         }
-
-        private void checkBoxRemoveBy_CheckedChanged(object sender, EventArgs e)
+        private void buttonNormalizerApply_Click(object sender, EventArgs e)
         {
-            groupBoxPRemoverBrackets.Enabled = checkBoxRemoveByBrackets.Checked;
-            groupBoxPRemoverPatterns.Enabled = checkBoxRemoveByPatternList.Checked;
+            DialogResult result = MessageBox.Show("Do you want apply normalizer?", "Question",
+                MessageBoxButtons.YesNo);
+            if (result != DialogResult.Yes) return;
+
+            if (radioButtonNormalizerAllWordsUpper.Checked)
+            { presenter.NormalizerSettings.CaseChangeMode = CaseChangeMode.AllWordsUpper;}
+            if(radioButtonNormalizerFirstWordUpper.Checked)
+            { presenter.NormalizerSettings.CaseChangeMode = CaseChangeMode.FirstWordUpper;}
+            if (checkBoxNormalizerRemoveChars.Checked)
+            {presenter.NormalizerSettings.CharsToRemove = textBoxNormalizerChars.Text.Split(' ').ToList();}
+            presenter.ApplyNormalizer();
         }
     }
 }

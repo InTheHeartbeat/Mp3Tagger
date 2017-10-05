@@ -101,6 +101,16 @@
             this.textBoxPatternRemoverNewBrackets = new System.Windows.Forms.TextBox();
             this.listBoxPatternRemoverBrackets = new System.Windows.Forms.ListBox();
             this.checkBoxRemoveByBrackets = new System.Windows.Forms.CheckBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxNormalizerRemoveChars = new System.Windows.Forms.CheckBox();
+            this.groupBoxNormalizerChangeCase = new System.Windows.Forms.GroupBox();
+            this.radioButtonNormalizerFirstWordUpper = new System.Windows.Forms.RadioButton();
+            this.radioButtonNormalizerAllWordsUpper = new System.Windows.Forms.RadioButton();
+            this.checkBoxNormalizerChangeCase = new System.Windows.Forms.CheckBox();
+            this.checkBoxNormalizerTrimming = new System.Windows.Forms.CheckBox();
+            this.buttonNormalizerApply = new System.Windows.Forms.Button();
+            this.textBoxNormalizerChars = new System.Windows.Forms.TextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.listBoxHistory = new System.Windows.Forms.ListBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -128,6 +138,9 @@
             this.groupBoxPRemoverPatterns.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxPRemoverBrackets.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.groupBoxNormalizerChangeCase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -273,8 +286,7 @@
             this.splitContainer1.Panel2MinSize = 210;
             this.splitContainer1.Size = new System.Drawing.Size(784, 408);
             this.splitContainer1.SplitterDistance = 569;
-            this.splitContainer1.TabIndex = 0;
-            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            this.splitContainer1.TabIndex = 0;           
             // 
             // compositionsDataGrid
             // 
@@ -303,6 +315,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageEdit);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -381,9 +394,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(165, 1334);
-            this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(148, 1376);
+            this.tableLayoutPanel1.TabIndex = 0;            
             // 
             // textBoxConductor
             // 
@@ -394,7 +406,7 @@
             this.textBoxConductor.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxConductor.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxConductor.Name = "textBoxConductor";
-            this.textBoxConductor.Size = new System.Drawing.Size(159, 20);
+            this.textBoxConductor.Size = new System.Drawing.Size(142, 20);
             this.textBoxConductor.TabIndex = 17;
             // 
             // label8
@@ -416,7 +428,7 @@
             this.textBoxAlbumArtists.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxAlbumArtists.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxAlbumArtists.Name = "textBoxAlbumArtists";
-            this.textBoxAlbumArtists.Size = new System.Drawing.Size(159, 20);
+            this.textBoxAlbumArtists.Size = new System.Drawing.Size(142, 20);
             this.textBoxAlbumArtists.TabIndex = 15;
             // 
             // label7
@@ -438,7 +450,7 @@
             this.textBoxComposers.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxComposers.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxComposers.Name = "textBoxComposers";
-            this.textBoxComposers.Size = new System.Drawing.Size(159, 20);
+            this.textBoxComposers.Size = new System.Drawing.Size(142, 20);
             this.textBoxComposers.TabIndex = 13;
             // 
             // label6
@@ -460,7 +472,7 @@
             this.textBoxYear.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxYear.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxYear.Name = "textBoxYear";
-            this.textBoxYear.Size = new System.Drawing.Size(159, 20);
+            this.textBoxYear.Size = new System.Drawing.Size(142, 20);
             this.textBoxYear.TabIndex = 11;
             // 
             // label5
@@ -482,7 +494,7 @@
             this.textBoxAlbum.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxAlbum.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxAlbum.Name = "textBoxAlbum";
-            this.textBoxAlbum.Size = new System.Drawing.Size(159, 20);
+            this.textBoxAlbum.Size = new System.Drawing.Size(142, 20);
             this.textBoxAlbum.TabIndex = 7;
             // 
             // label3
@@ -504,7 +516,7 @@
             this.textBoxPerformer.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxPerformer.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxPerformer.Name = "textBoxPerformer";
-            this.textBoxPerformer.Size = new System.Drawing.Size(159, 20);
+            this.textBoxPerformer.Size = new System.Drawing.Size(142, 20);
             this.textBoxPerformer.TabIndex = 5;
             // 
             // label1
@@ -526,7 +538,7 @@
             this.textBoxTitle.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxTitle.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(159, 20);
+            this.textBoxTitle.Size = new System.Drawing.Size(142, 20);
             this.textBoxTitle.TabIndex = 3;
             // 
             // label2
@@ -558,7 +570,7 @@
             this.textBoxGenres.MaximumSize = new System.Drawing.Size(180, 20);
             this.textBoxGenres.MinimumSize = new System.Drawing.Size(100, 20);
             this.textBoxGenres.Name = "textBoxGenres";
-            this.textBoxGenres.Size = new System.Drawing.Size(159, 20);
+            this.textBoxGenres.Size = new System.Drawing.Size(142, 20);
             this.textBoxGenres.TabIndex = 9;
             // 
             // flowLayoutPanel1
@@ -573,7 +585,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 376);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(165, 94);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(148, 136);
             this.flowLayoutPanel1.TabIndex = 19;
             // 
             // label9
@@ -589,7 +601,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(87, 8);
+            this.label10.Location = new System.Drawing.Point(50, 29);
             this.label10.Margin = new System.Windows.Forms.Padding(50, 8, 3, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(61, 13);
@@ -604,7 +616,7 @@
             this.flowLayoutPanel2.Controls.Add(this.textBoxDisc);
             this.flowLayoutPanel2.Controls.Add(this.label11);
             this.flowLayoutPanel2.Controls.Add(this.textBoxDiscCount);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 21);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 42);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(146, 26);
@@ -642,10 +654,10 @@
             this.flowLayoutPanel3.Controls.Add(this.label12);
             this.flowLayoutPanel3.Controls.Add(this.label13);
             this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel4);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 47);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 68);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(157, 47);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(146, 68);
             this.flowLayoutPanel3.TabIndex = 21;
             // 
             // label12
@@ -661,7 +673,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(86, 8);
+            this.label13.Location = new System.Drawing.Point(42, 29);
             this.label13.Margin = new System.Windows.Forms.Padding(42, 8, 3, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(68, 13);
@@ -676,7 +688,7 @@
             this.flowLayoutPanel4.Controls.Add(this.textBoxTrack);
             this.flowLayoutPanel4.Controls.Add(this.label14);
             this.flowLayoutPanel4.Controls.Add(this.textBoxTrackCount);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 21);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 42);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(146, 26);
@@ -709,7 +721,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 478);
+            this.label15.Location = new System.Drawing.Point(3, 520);
             this.label15.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(37, 13);
@@ -721,18 +733,18 @@
             this.textBoxLyrics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLyrics.Location = new System.Drawing.Point(3, 494);
+            this.textBoxLyrics.Location = new System.Drawing.Point(3, 536);
             this.textBoxLyrics.MaximumSize = new System.Drawing.Size(180, 300);
             this.textBoxLyrics.MinimumSize = new System.Drawing.Size(100, 200);
             this.textBoxLyrics.Multiline = true;
             this.textBoxLyrics.Name = "textBoxLyrics";
-            this.textBoxLyrics.Size = new System.Drawing.Size(159, 280);
+            this.textBoxLyrics.Size = new System.Drawing.Size(142, 280);
             this.textBoxLyrics.TabIndex = 21;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 785);
+            this.label16.Location = new System.Drawing.Point(3, 827);
             this.label16.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(54, 13);
@@ -744,18 +756,18 @@
             this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Location = new System.Drawing.Point(3, 801);
+            this.textBoxComment.Location = new System.Drawing.Point(3, 843);
             this.textBoxComment.MaximumSize = new System.Drawing.Size(180, 150);
             this.textBoxComment.MinimumSize = new System.Drawing.Size(100, 150);
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.Size = new System.Drawing.Size(159, 150);
+            this.textBoxComment.Size = new System.Drawing.Size(142, 150);
             this.textBoxComment.TabIndex = 23;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 962);
+            this.label18.Location = new System.Drawing.Point(3, 1004);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(54, 13);
@@ -767,27 +779,27 @@
             this.textBoxCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCopyright.Location = new System.Drawing.Point(3, 978);
+            this.textBoxCopyright.Location = new System.Drawing.Point(3, 1020);
             this.textBoxCopyright.MaximumSize = new System.Drawing.Size(180, 150);
             this.textBoxCopyright.MinimumSize = new System.Drawing.Size(100, 150);
             this.textBoxCopyright.Multiline = true;
             this.textBoxCopyright.Name = "textBoxCopyright";
-            this.textBoxCopyright.Size = new System.Drawing.Size(159, 150);
+            this.textBoxCopyright.Size = new System.Drawing.Size(142, 150);
             this.textBoxCopyright.TabIndex = 27;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 1155);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 1197);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(159, 176);
+            this.pictureBox1.Size = new System.Drawing.Size(142, 176);
             this.pictureBox1.TabIndex = 25;
             this.pictureBox1.TabStop = false;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 1139);
+            this.label17.Location = new System.Drawing.Point(3, 1181);
             this.label17.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(38, 13);
@@ -829,8 +841,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(179, 650);
-            this.tableLayoutPanel2.TabIndex = 5;
-            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
+            this.tableLayoutPanel2.TabIndex = 5;            
             // 
             // groupBoxPRemoverPatterns
             // 
@@ -905,8 +916,7 @@
             this.checkBoxRemoveByPatternList.Size = new System.Drawing.Size(131, 17);
             this.checkBoxRemoveByPatternList.TabIndex = 5;
             this.checkBoxRemoveByPatternList.Text = "Remove by pattern list";
-            this.checkBoxRemoveByPatternList.UseVisualStyleBackColor = true;
-            this.checkBoxRemoveByPatternList.CheckedChanged += new System.EventHandler(this.checkBoxRemoveBy_CheckedChanged);
+            this.checkBoxRemoveByPatternList.UseVisualStyleBackColor = true;            
             // 
             // groupBox1
             // 
@@ -919,8 +929,7 @@
             this.groupBox1.Size = new System.Drawing.Size(173, 238);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Apply to";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.groupBox1.Text = "Apply to";            
             // 
             // checkedListBoxApplyToPatternRemover
             // 
@@ -946,8 +955,7 @@
             this.groupBoxPRemoverBrackets.Size = new System.Drawing.Size(173, 155);
             this.groupBoxPRemoverBrackets.TabIndex = 4;
             this.groupBoxPRemoverBrackets.TabStop = false;
-            this.groupBoxPRemoverBrackets.Text = "Brackets";
-            this.groupBoxPRemoverBrackets.Enter += new System.EventHandler(this.groupBox3_Enter);
+            this.groupBoxPRemoverBrackets.Text = "Brackets";            
             // 
             // buttonPatternRemoverRemoveBrackets
             // 
@@ -997,8 +1005,125 @@
             this.checkBoxRemoveByBrackets.Size = new System.Drawing.Size(148, 17);
             this.checkBoxRemoveByBrackets.TabIndex = 6;
             this.checkBoxRemoveByBrackets.Text = "Remove betwen brackets";
-            this.checkBoxRemoveByBrackets.UseVisualStyleBackColor = true;
-            this.checkBoxRemoveByBrackets.CheckedChanged += new System.EventHandler(this.checkBoxRemoveBy_CheckedChanged);
+            this.checkBoxRemoveByBrackets.UseVisualStyleBackColor = true;            
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tableLayoutPanel3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(202, 378);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Normalizer";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxNormalizerRemoveChars, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.groupBoxNormalizerChangeCase, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxNormalizerChangeCase, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.checkBoxNormalizerTrimming, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.buttonNormalizerApply, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.textBoxNormalizerChars, 0, 5);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 7;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(196, 372);
+            this.tableLayoutPanel3.TabIndex = 0;            
+            // 
+            // checkBoxNormalizerRemoveChars
+            // 
+            this.checkBoxNormalizerRemoveChars.AutoSize = true;
+            this.checkBoxNormalizerRemoveChars.Location = new System.Drawing.Point(3, 162);
+            this.checkBoxNormalizerRemoveChars.Name = "checkBoxNormalizerRemoveChars";
+            this.checkBoxNormalizerRemoveChars.Size = new System.Drawing.Size(167, 17);
+            this.checkBoxNormalizerRemoveChars.TabIndex = 4;
+            this.checkBoxNormalizerRemoveChars.Text = "Remove chars (space divider)";
+            this.checkBoxNormalizerRemoveChars.UseVisualStyleBackColor = true;            
+            // 
+            // groupBoxNormalizerChangeCase
+            // 
+            this.groupBoxNormalizerChangeCase.AutoSize = true;
+            this.groupBoxNormalizerChangeCase.Controls.Add(this.radioButtonNormalizerFirstWordUpper);
+            this.groupBoxNormalizerChangeCase.Controls.Add(this.radioButtonNormalizerAllWordsUpper);
+            this.groupBoxNormalizerChangeCase.Location = new System.Drawing.Point(3, 78);
+            this.groupBoxNormalizerChangeCase.Name = "groupBoxNormalizerChangeCase";
+            this.groupBoxNormalizerChangeCase.Size = new System.Drawing.Size(190, 78);
+            this.groupBoxNormalizerChangeCase.TabIndex = 1;
+            this.groupBoxNormalizerChangeCase.TabStop = false;
+            this.groupBoxNormalizerChangeCase.Text = "Change case";
+            // 
+            // radioButtonNormalizerFirstWordUpper
+            // 
+            this.radioButtonNormalizerFirstWordUpper.AutoSize = true;
+            this.radioButtonNormalizerFirstWordUpper.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonNormalizerFirstWordUpper.Name = "radioButtonNormalizerFirstWordUpper";
+            this.radioButtonNormalizerFirstWordUpper.Size = new System.Drawing.Size(183, 17);
+            this.radioButtonNormalizerFirstWordUpper.TabIndex = 1;
+            this.radioButtonNormalizerFirstWordUpper.Text = "Only first word begin a upper char";
+            this.radioButtonNormalizerFirstWordUpper.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonNormalizerAllWordsUpper
+            // 
+            this.radioButtonNormalizerAllWordsUpper.AutoSize = true;
+            this.radioButtonNormalizerAllWordsUpper.Checked = true;
+            this.radioButtonNormalizerAllWordsUpper.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonNormalizerAllWordsUpper.Name = "radioButtonNormalizerAllWordsUpper";
+            this.radioButtonNormalizerAllWordsUpper.Size = new System.Drawing.Size(159, 17);
+            this.radioButtonNormalizerAllWordsUpper.TabIndex = 0;
+            this.radioButtonNormalizerAllWordsUpper.TabStop = true;
+            this.radioButtonNormalizerAllWordsUpper.Text = "All words begin a upper char";
+            this.radioButtonNormalizerAllWordsUpper.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxNormalizerChangeCase
+            // 
+            this.checkBoxNormalizerChangeCase.AutoSize = true;
+            this.checkBoxNormalizerChangeCase.Location = new System.Drawing.Point(3, 55);
+            this.checkBoxNormalizerChangeCase.Name = "checkBoxNormalizerChangeCase";
+            this.checkBoxNormalizerChangeCase.Size = new System.Drawing.Size(89, 17);
+            this.checkBoxNormalizerChangeCase.TabIndex = 2;
+            this.checkBoxNormalizerChangeCase.Text = "Change case";
+            this.checkBoxNormalizerChangeCase.UseVisualStyleBackColor = true;            
+            // 
+            // checkBoxNormalizerTrimming
+            // 
+            this.checkBoxNormalizerTrimming.AutoSize = true;
+            this.checkBoxNormalizerTrimming.Location = new System.Drawing.Point(3, 32);
+            this.checkBoxNormalizerTrimming.Name = "checkBoxNormalizerTrimming";
+            this.checkBoxNormalizerTrimming.Size = new System.Drawing.Size(68, 17);
+            this.checkBoxNormalizerTrimming.TabIndex = 0;
+            this.checkBoxNormalizerTrimming.Text = "Trimming";
+            this.checkBoxNormalizerTrimming.UseVisualStyleBackColor = true;
+            // 
+            // buttonNormalizerApply
+            // 
+            this.buttonNormalizerApply.Location = new System.Drawing.Point(3, 3);
+            this.buttonNormalizerApply.Name = "buttonNormalizerApply";
+            this.buttonNormalizerApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonNormalizerApply.TabIndex = 3;
+            this.buttonNormalizerApply.Text = "Apply";
+            this.buttonNormalizerApply.UseVisualStyleBackColor = true;
+            this.buttonNormalizerApply.Click += new System.EventHandler(this.buttonNormalizerApply_Click);
+            // 
+            // textBoxNormalizerChars
+            // 
+            this.textBoxNormalizerChars.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxNormalizerChars.Location = new System.Drawing.Point(3, 185);
+            this.textBoxNormalizerChars.Name = "textBoxNormalizerChars";
+            this.textBoxNormalizerChars.Size = new System.Drawing.Size(190, 20);
+            this.textBoxNormalizerChars.TabIndex = 5;
             // 
             // splitContainer3
             // 
@@ -1081,6 +1206,11 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBoxPRemoverBrackets.ResumeLayout(false);
             this.groupBoxPRemoverBrackets.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.groupBoxNormalizerChangeCase.ResumeLayout(false);
+            this.groupBoxNormalizerChangeCase.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
@@ -1167,6 +1297,16 @@
         private System.Windows.Forms.Button buttonPatternRemoverApply;
         private System.Windows.Forms.CheckBox checkBoxRemoveByPatternList;
         private System.Windows.Forms.CheckBox checkBoxRemoveByBrackets;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.CheckBox checkBoxNormalizerTrimming;
+        private System.Windows.Forms.GroupBox groupBoxNormalizerChangeCase;
+        private System.Windows.Forms.RadioButton radioButtonNormalizerFirstWordUpper;
+        private System.Windows.Forms.RadioButton radioButtonNormalizerAllWordsUpper;
+        private System.Windows.Forms.CheckBox checkBoxNormalizerChangeCase;
+        private System.Windows.Forms.Button buttonNormalizerApply;
+        private System.Windows.Forms.CheckBox checkBoxNormalizerRemoveChars;
+        private System.Windows.Forms.TextBox textBoxNormalizerChars;
     }
 }
 

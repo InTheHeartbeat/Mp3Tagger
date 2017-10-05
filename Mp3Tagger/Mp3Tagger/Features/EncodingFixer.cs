@@ -17,7 +17,7 @@ namespace Mp3Tagger.Features
             Name = "Encoding fixing";
         }
 
-        public async void ApplyToList(List<Composition> list, Action<IFeature,int,int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
+        public async Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
         {
             await Task.Run(() =>
             {
