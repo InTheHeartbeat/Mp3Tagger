@@ -30,7 +30,7 @@ namespace Mp3Tagger
             InitializeComponent();      
             presenter = new MainPresenter(this);
 
-            InitializeCheckedListBoxApplyToPatternRemover();
+            InitializeCheckedListBoxApplyTo();
 
             presenter.FeatureWorkStarted += OnPresenterFeatureWorkStarted;
             presenter.FeatureProgressUpdated += OnPresenterFeatureProgressUpdated;
@@ -55,10 +55,13 @@ namespace Mp3Tagger
 
             groupBoxNormalizerChangeCase.DataBindings.Add("Enabled", checkBoxNormalizerChangeCase, "Checked");
             textBoxNormalizerChars.DataBindings.Add("Enabled", checkBoxNormalizerRemoveChars, "Checked");
+            groupBoxNormalizerChangeCaseApplyTo.DataBindings.Add("Enabled", checkBoxNormalizerChangeCase, "Checked");
+            groupBoxNormalizerCharsRemoverApplyTo.DataBindings.Add("Enabled", checkBoxNormalizerRemoveChars, "Checked");
         }
 
-        private void InitializeCheckedListBoxApplyToPatternRemover()
+        private void InitializeCheckedListBoxApplyTo()
         {
+            /* **** PatternRemover **** */
             checkedListBoxApplyToPatternRemover.DataSource = presenter.PatternRemoverSettings.ApplyToSettings;
             checkedListBoxApplyToPatternRemover.DisplayMember = "FieldName";
             checkedListBoxApplyToPatternRemover.ValueMember = "IsApply";
@@ -66,6 +69,26 @@ namespace Mp3Tagger
             {
                 checkedListBoxApplyToPatternRemover.SetItemChecked(i,
                     presenter.PatternRemoverSettings.ApplyToSettings[i].IsApply);
+            }
+
+            /* **** CaseChange **** */
+            checkedListBoxCaseChangeApplyTo.DataSource = presenter.NormalizerSettings.CaseChangeApplyTo;
+            checkedListBoxCaseChangeApplyTo.DisplayMember = "FieldName";
+            checkedListBoxCaseChangeApplyTo.ValueMember = "IsApply";
+            for (var i = 0; i < checkedListBoxCaseChangeApplyTo.Items.Count; i++)
+            {
+                checkedListBoxCaseChangeApplyTo.SetItemChecked(i,
+                    presenter.NormalizerSettings.CaseChangeApplyTo[i].IsApply);
+            }
+
+            /* **** CharsRemover **** */
+            checkedListBoxCharsRemoverApplyTo.DataSource = presenter.NormalizerSettings.CharsToRemoveApplyTo;
+            checkedListBoxCharsRemoverApplyTo.DisplayMember = "FieldName";
+            checkedListBoxCharsRemoverApplyTo.ValueMember = "IsApply";
+            for (var i = 0; i < checkedListBoxCharsRemoverApplyTo.Items.Count; i++)
+            {
+                checkedListBoxCharsRemoverApplyTo.SetItemChecked(i,
+                    presenter.NormalizerSettings.CharsToRemoveApplyTo[i].IsApply);
             }
         }
 
@@ -79,7 +102,6 @@ namespace Mp3Tagger
 
             InitializeDataGrid();
         }
-
         private void OnPresenterFeatureWorkStarted(IFeature feature, int operationsCount)
         {
             statusBarProgressLabel.Text = $"Loaded: 0/{operationsCount}";
@@ -87,7 +109,6 @@ namespace Mp3Tagger
             statusBarProgressBar.Value = 0;
             statusBarProgressBar.Visible = true;
         }
-
         private void OnPresenterFeatureProgressUpdated(IFeature feature, int performed, int of)
         {
             statusBarProgressLabel.GetCurrentParent().Invoke(new MethodInvoker(delegate { statusBarProgressLabel.Text = $"Loaded: {performed + 1}/{of}"; }));
@@ -129,23 +150,7 @@ namespace Mp3Tagger
                 }
             }
         }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                fbd.RootFolder = Environment.SpecialFolder.MyComputer;                
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    presenter.OpenCompositions(fbd.SelectedPath);
-                    statusBarProgressLabel.Text = "Getting files..";
-                    statusBarStatusLabel.Text = "Loading compositions..";
-                }
-            }            
-        }
-
+        
         private void compositionsDataGrid_SelectionChanged(object sender, EventArgs e)
         {
             
@@ -365,13 +370,27 @@ namespace Mp3Tagger
             }     
         }
 
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    presenter.OpenCompositions(fbd.SelectedPath);
+                    statusBarProgressLabel.Text = "Getting files..";
+                    statusBarStatusLabel.Text = "Loading compositions..";
+                }
+            }
+        }
         private void fixEncodingAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want apply fix encoding for all compositions?", "Question", MessageBoxButtons.YesNo);
             if (result != DialogResult.Yes) return;
-            presenter.FixAllEncoding();
+            presenter.ApplyFeatureForAll(Feature.EncodingFixer);
         }
-
         private void fixEncodingSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want apply fix encoding for selected compositions?", "Question", MessageBoxButtons.YesNo);
@@ -381,57 +400,46 @@ namespace Mp3Tagger
             {
                 selected.Add(presenter.Compositions.FirstOrDefault(t=>t.Path == (string)compositionsDataGrid["Path",row.Index].Value));
             }
-            presenter.FixSelectedEncoding(selected);
+            presenter.ApplyFeatureForSelected(Feature.EncodingFixer, selected);
         }
-
         private void buttonPatternRemoverAddPattern_Click(object sender, EventArgs e)
         {
             presenter.PatternRemoverSettings.PatternList.Add(textBoxPatternRemoverNewPattern.Text);
             listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList), null);
-        }
-
-        private void textBoxPatternRemoverNewPattern_TextChanged(object sender, EventArgs e)
-        {
-            buttonPatternRemoverAddPattern.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
-        }
-
+        }       
         private void buttonPatternRemoverRemovePattern_Click(object sender, EventArgs e)
         {
             presenter.PatternRemoverSettings.PatternList.Remove((string)listBoxPatternRemoverPatterns.SelectedItem);
             listBoxPatternRemoverPatterns.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.PatternList), null);
         }
-
         private void buttonPatternRemoverAddBrackets_Click(object sender, EventArgs e)
         {
             presenter.PatternRemoverSettings.BracketsList.Add(textBoxPatternRemoverNewBrackets.Text);
             listBoxPatternRemoverBrackets.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.BracketsList), null);
         }
-
         private void buttonPatternRemoverRemoveBrackets_Click(object sender, EventArgs e)
         {
             presenter.PatternRemoverSettings.BracketsList.Remove((string)listBoxPatternRemoverBrackets.SelectedItem);
             listBoxPatternRemoverBrackets.DataSource = new BindingSource(new BindingList<string>(presenter.PatternRemoverSettings.BracketsList), null);
-        }
-
-        private void textBoxPatternRemoverNewBrackets_TextChanged(object sender, EventArgs e)
-        {
-            buttonPatternRemoverAddBrackets.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
-        }
-
+        }        
         private void buttonPatternRemoverApply_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Do you want apply pattern remover?", "Question",
                 MessageBoxButtons.YesNo);
             if(result != DialogResult.Yes)return;
-            
-            checkedListBoxApplyToPatternRemover.CheckedItems
-                .Cast<PatternRemoverApplyTo>().ToList().ForEach(cp => presenter.PatternRemoverSettings.ApplyToSettings
-                .Where(ps => cp.FieldName == ps.FieldName)
-                .ToList()
-                .ForEach(cpps => cpps.IsApply = true));
 
-            presenter.ApplyPatternRemover();
+            presenter.PatternRemoverSettings.InitializeApplyToByDefault();
+            List<FeatureApplyToField> chkd = checkedListBoxApplyToPatternRemover.CheckedItems.Cast<FeatureApplyToField>()
+                .ToList();
+            chkd.ForEach(ch =>
+            {
+                FeatureApplyToField field =
+                    presenter.PatternRemoverSettings.ApplyToSettings.FirstOrDefault(s => s.FieldName == ch.FieldName);
+                if (field != null)
+                    field.IsApply = true;
+            });
 
+            presenter.ApplyFeatureForAll(Feature.PatternRemover);
         }
         private void buttonNormalizerApply_Click(object sender, EventArgs e)
         {
@@ -439,13 +447,44 @@ namespace Mp3Tagger
                 MessageBoxButtons.YesNo);
             if (result != DialogResult.Yes) return;
 
+            presenter.NormalizerSettings.InitializeCaseChangeApplyToByDefault();
+            List<FeatureApplyToField> chkd = checkedListBoxCaseChangeApplyTo.CheckedItems.Cast<FeatureApplyToField>()
+                .ToList();
+            chkd.ForEach(ch =>
+            {
+                FeatureApplyToField field =
+                    presenter.NormalizerSettings.CaseChangeApplyTo.FirstOrDefault(s => s.FieldName == ch.FieldName);
+                if (field != null)
+                    field.IsApply = true;
+            });
+
+            presenter.NormalizerSettings.InitializeCharsToRemoveApplyToByDeafult();
+            chkd = checkedListBoxCharsRemoverApplyTo.CheckedItems.Cast<FeatureApplyToField>()
+                .ToList();
+            chkd.ForEach(ch =>
+            {
+                FeatureApplyToField field =
+                    presenter.NormalizerSettings.CharsToRemoveApplyTo.FirstOrDefault(s => s.FieldName == ch.FieldName);
+                if (field != null)
+                    field.IsApply = true;
+            });
+
+
             if (radioButtonNormalizerAllWordsUpper.Checked)
             { presenter.NormalizerSettings.CaseChangeMode = CaseChangeMode.AllWordsUpper;}
             if(radioButtonNormalizerFirstWordUpper.Checked)
             { presenter.NormalizerSettings.CaseChangeMode = CaseChangeMode.FirstWordUpper;}
             if (checkBoxNormalizerRemoveChars.Checked)
             {presenter.NormalizerSettings.CharsToRemove = textBoxNormalizerChars.Text.Split(' ').ToList();}
-            presenter.ApplyNormalizer();
+            presenter.ApplyFeatureForAll(Feature.Normalizer);
+        }
+        private void textBoxPatternRemoverNewPattern_TextChanged(object sender, EventArgs e)
+        {
+            buttonPatternRemoverAddPattern.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
+        }
+        private void textBoxPatternRemoverNewBrackets_TextChanged(object sender, EventArgs e)
+        {
+            buttonPatternRemoverAddBrackets.Enabled = !string.IsNullOrWhiteSpace(textBoxPatternRemoverNewPattern.Text);
         }
     }
 }

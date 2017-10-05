@@ -45,9 +45,9 @@ namespace Mp3Tagger.Features
         {            
             foreach (PropertyInfo propertyInfo in composition.GetType().GetProperties().Where(p=>p.PropertyType == typeof(string)))
             {
-                PatternRemoverApplyTo removerApplyTo =
+                FeatureApplyToField removerApplyToField =
                     PatternRemoverSettings.ApplyToSettings.FirstOrDefault(s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
-                if (removerApplyTo != null && removerApplyTo.IsApply)
+                if (removerApplyToField != null && removerApplyToField.IsApply)
                 {
                     if (PatternRemoverSettings.RemoveByPatternList)
                     {

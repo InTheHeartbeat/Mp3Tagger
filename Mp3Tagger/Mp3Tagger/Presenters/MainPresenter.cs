@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Mp3Tagger.Enums;
 using Mp3Tagger.Features;
 using Mp3Tagger.Interfaces;
 using Mp3Tagger.IO;
@@ -46,52 +47,64 @@ namespace Mp3Tagger.Presenters
             normalizer.Initialize(new NormalizerSettings());
         }
 
+        public async void ApplyFeatureForAll(Feature feature)
+        {
+            switch (feature)
+            {
+                case Feature.EncodingFixer:
+                    await ApplyFeatureConcreteFeatureForAll(encodingFixer);
+                    break;
+                case Feature.PatternRemover:
+                    await ApplyFeatureConcreteFeatureForAll(patternRemover);
+                    break;
+                case Feature.Normalizer:
+                    await ApplyFeatureConcreteFeatureForAll(normalizer);
+                    break;
+            }
+        }
+
+        public async void ApplyFeatureForSelected(Feature feature, List<Composition> selected)
+        {
+            switch (feature)
+            {
+                    case Feature.EncodingFixer:
+                        await ApplyFeatureConcreteFeatureForSelected(encodingFixer,selected);
+                    break;
+            }
+        }
+
         public async void OpenCompositions(string path)
         {
             Compositions = new List<Composition>();            
             await compositionsLoader.Initialize(path);
             OnFeatureWorkStarted(compositionsLoader,compositionsLoader.FilesCount);
             await compositionsLoader.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
-        }               
-
-        public async void FixAllEncoding()
-        {
-            OnFeatureWorkStarted(encodingFixer,Compositions.Count);
-            await encodingFixer.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
         }
 
-        public async void FixSelectedEncoding(List<Composition> selected)
+        private async Task ApplyFeatureConcreteFeatureForAll(IFeature featureInstace)
         {
-            OnFeatureWorkStarted(encodingFixer,selected.Count);
-            await encodingFixer.ApplyToList(selected,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+            OnFeatureWorkStarted(featureInstace,Compositions.Count);
+            await featureInstace.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
+        }
+        private async Task ApplyFeatureConcreteFeatureForSelected(IFeature featureInstace, List<Composition> selected)
+        {
+            OnFeatureWorkStarted(featureInstace, Compositions.Count);
+            await featureInstace.ApplyToList(selected, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
         }
 
-        public async void ApplyPatternRemover()
-        {
-            OnFeatureWorkStarted(patternRemover,Compositions.Count);            
-            await patternRemover.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
-        }
-
-        public async void ApplyNormalizer()
-        {
-            OnFeatureWorkStarted(patternRemover,Compositions.Count);
-            await normalizer.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
-        }
-
-
+        #region Event invokators
         private void OnFeatureWorkStarted(IFeature feature,int operationCount)
         {
             FeatureWorkStarted?.Invoke(feature,operationCount);
         }
-
         private void OnFeatureWorkCompleted(IFeature feature)
         {
             FeatureWorkCompleted?.Invoke(feature);
         }
-
         private void OnFeatureProgressUpdated(IFeature feature, int performed, int of)
         {
             FeatureProgressUpdated?.Invoke(feature, performed, of);
-        }        
+        }
+        #endregion
     }
 }

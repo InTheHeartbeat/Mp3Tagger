@@ -14,7 +14,7 @@ namespace Mp3Tagger.Settings
     {
         public List<string> PatternList { get; set; }
         public List<string> BracketsList { get; set; }
-        public List<PatternRemoverApplyTo> ApplyToSettings { get; set; }
+        public List<FeatureApplyToField> ApplyToSettings { get; set; }
         public bool RemoveByPatternList { get; set; }
         public bool RemoveByBracketsList { get; set; }
 
@@ -25,10 +25,15 @@ namespace Mp3Tagger.Settings
             RemoveByPatternList = true;
             RemoveByBracketsList = true;
 
-            ApplyToSettings = new List<PatternRemoverApplyTo>();
+            InitializeApplyToByDefault();
+        }
+
+        public void InitializeApplyToByDefault()
+        {
+            ApplyToSettings = new List<FeatureApplyToField>();
             ApplyToSettings.AddRange(typeof(Composition).GetProperties()
                 .Where(prop => prop.PropertyType == typeof(string) && prop.Name != "Bitrate" && prop.Name != "Path")
-                .Select(pp => new PatternRemoverApplyTo() {FieldName = pp.Name.Replace("Joined","").AddSpaceBetwenUpperChars(), IsApply = true}));
-        }  
+                .Select(pp => new FeatureApplyToField() { FieldName = pp.Name.Replace("Joined", "").AddSpaceBetwenUpperChars(), IsApply = true }));
+        }
     }
 }

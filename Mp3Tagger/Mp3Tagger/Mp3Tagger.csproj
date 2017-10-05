@@ -50,9 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\CaseChangeMode.cs" />
+    <Compile Include="Enums\Feature.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Features\CompositionsLoader.cs" />
-    <Compile Include="Features\Helpers\PatternRemoverApplyTo.cs" />
+    <Compile Include="Features\Helpers\FeatureApplyToField.cs" />
     <Compile Include="Features\Normalizer.cs" />
     <Compile Include="Features\PatternRemover.cs" />
     <Compile Include="Interfaces\IFeature.cs" />
