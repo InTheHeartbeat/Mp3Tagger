@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TagLib;
@@ -10,10 +12,23 @@ using TagLib.Mpeg;
 
 namespace Mp3Tagger.Models
 {
-    public class DataGridComposition
-    {        
-        public string Title { get; set; }
-        public string Performer { get; set; }
+    public class DataGridComposition : INotifyPropertyChanged
+    {
+        private string title;
+        private string performer;
+
+        public string Title
+        {
+            get { return title; }
+            set { title = value; OnPropertyChanged("Title");}
+        }
+
+        public string Performer
+        {
+            get { return performer; }
+            set { performer = value; OnPropertyChanged("Performer"); }
+        }
+
         public string Album { get; set; }
         public int Bitrate { get; set; }
         public string Duration { get; set; }
@@ -53,6 +68,13 @@ namespace Mp3Tagger.Models
             Year = (int)baseComposition.Year;
             Bitrate = baseComposition.Bitrate;
             Duration = baseComposition.Duration.Minutes + ":" + baseComposition.Duration.Seconds;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

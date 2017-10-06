@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Mp3Tagger.Base.Attributes;
 using TagLib;
 using TagLib.Mpeg;
 
@@ -26,6 +28,7 @@ namespace Mp3Tagger.Models
         }
 
         public string AmazonId { get; set; }
+        [CustomFieldHeightRequired(150)]
         public string Comment { get; set; }
         public string[] Composers { get; set; }
 
@@ -35,8 +38,11 @@ namespace Mp3Tagger.Models
             set { Composers = value.Split(','); }
         }
         public string Conductor { get; set; }
+        [CustomFieldHeightRequired(150)]
         public string Copyright { get; set; }
+        [DisplayFieldsTogether]
         public int Disc { get; set; }
+        [DisplayFieldsTogether]
         public int DiscCount { get; set; }
         public string[] Genres { get; set; }
 
@@ -46,6 +52,7 @@ namespace Mp3Tagger.Models
             set { Genres = value.Split(','); }
         }
         public string Grouping { get; set; }
+        [CustomFieldHeightRequired(250)]
         public string Lyrics { get; set; }
         public int Track { get; set; }
         public int TrackCount { get; set; }

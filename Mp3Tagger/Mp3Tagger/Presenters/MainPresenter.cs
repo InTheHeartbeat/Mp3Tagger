@@ -45,6 +45,7 @@ namespace Mp3Tagger.Presenters
             patternRemover.Initialize(new PatternRemoverSettings());
             normalizer = new Normalizer();
             normalizer.Initialize(new NormalizerSettings());
+            Compositions = new List<Composition>();
         }
 
         public async void ApplyFeatureForAll(Feature feature)

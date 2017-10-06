@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mp3Tagger.Base.Extensions;
 using Mp3Tagger.Enums;
-using Mp3Tagger.Extensions;
 using Mp3Tagger.Features.Helpers;
 using Mp3Tagger.Models;
 
