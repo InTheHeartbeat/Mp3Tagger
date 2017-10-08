@@ -8,5 +8,6 @@
             <Setter Property="FontFamily" Value="./Fonts/#Raleway" />
             <Setter Property="FontStretch" Value="Medium"/>
         </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Application.Resources>
 </Application>

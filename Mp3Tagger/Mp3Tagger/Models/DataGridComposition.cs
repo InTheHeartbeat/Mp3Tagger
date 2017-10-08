@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Mp3Tagger.Kernel.Models;
 using TagLib;
 using TagLib.Mpeg;
 

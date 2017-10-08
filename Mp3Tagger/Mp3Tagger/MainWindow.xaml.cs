@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,11 +16,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Mp3Tagger.Base.Attributes;
-using Mp3Tagger.Base.Extensions;
-using Mp3Tagger.Interfaces;
+using Mp3Tagger.Kernel.Base.Attributes;
+using Mp3Tagger.Kernel.Base.Extensions;
+using Mp3Tagger.Kernel.Interfaces;
+using Mp3Tagger.Kernel.Models;
+using Mp3Tagger.Kernel.Presenters;
 using Mp3Tagger.Models;
-using Mp3Tagger.Presenters;
 
 namespace Mp3Tagger
 {
@@ -29,23 +32,37 @@ namespace Mp3Tagger
     {
         private List<TextBox> editTabBoxes { get; set; }
 
+        public ProcessState CurrentState => presenter.CurrentState;
+
         private MainPresenter presenter;
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            this.DataContext = this;
+
             editTabBoxes = new List<TextBox>();
 
             presenter = new MainPresenter(this);
+            presenter.FeatureWorkStarted += Presenter_FeatureWorkStarted;
+            presenter.FeatureProgressUpdated += Presenter_FeatureProgressUpdated;
             presenter.FeatureWorkCompleted += Presenter_FeatureWorkCompleted;
             CompositionsDataGrid.ItemsSource = new List<DataGridComposition>();
 
             GenerateEditTabPage();            
         }
 
+        private void Presenter_FeatureWorkStarted(IFeature arg1, int arg2)
+        {                        
+        }
+
+        private void Presenter_FeatureProgressUpdated(IFeature arg1, int arg2, int arg3)
+        {                        
+        }
+
         private void Presenter_FeatureWorkCompleted(IFeature obj)
-        {
+        {            
             CompositionsDataGrid.ItemsSource = presenter.Compositions.Select(c => new DataGridComposition(c));                        
         }
 
@@ -100,12 +117,6 @@ namespace Mp3Tagger
         {
             
         }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void open_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())

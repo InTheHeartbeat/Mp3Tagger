@@ -59,11 +59,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Base\Attributes\CustomFieldHeightRequired.cs" />
-    <Compile Include="Base\Attributes\DisplayFieldsTogether.cs" />
-    <Compile Include="Providers\CompositionProvider.cs" />
-    <Compile Include="Settings\NormalizerSettings.cs" />
-    <Compile Include="Settings\PatternRemoverSettings.cs" />
+    <Compile Include="Kernel\Base\Attributes\CustomFieldHeightRequired.cs" />
+    <Compile Include="Kernel\Features\IO\FileSystemWalker.cs" />
+    <Compile Include="Kernel\Interfaces\IIOFeature.cs" />
+    <Compile Include="Kernel\Models\ProcessState.cs" />
+    <Compile Include="Kernel\Settings\NormalizerSettings.cs" />
+    <Compile Include="Kernel\Settings\PatternRemoverSettings.cs" />
+    <Compile Include="UserControls\ImageButton.xaml.cs">
+      <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,28 +76,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Enums\CaseChangeMode.cs" />
-    <Compile Include="Enums\Feature.cs" />
-    <Compile Include="Base\Extensions\StringExtensions.cs" />
-    <Compile Include="Features\CompositionsLoader.cs" />
-    <Compile Include="Features\EncodingFixer.cs" />
-    <Compile Include="Features\Helpers\FeatureApplyToField.cs" />
-    <Compile Include="Features\Normalizer.cs" />
-    <Compile Include="Features\PatternRemover.cs" />
-    <Compile Include="Interfaces\IFeature.cs" />
-    <Compile Include="Interfaces\IPresenter.cs" />
-    <Compile Include="Interfaces\IView.cs" />
-    <Compile Include="IO\FilesProvider.cs" />
+    <Compile Include="Kernel\Enums\CaseChangeMode.cs" />
+    <Compile Include="Kernel\Enums\Feature.cs" />
+    <Compile Include="Kernel\Base\Extensions\StringExtensions.cs" />
+    <Compile Include="Kernel\Features\CompositionsLoader.cs" />
+    <Compile Include="Kernel\Features\EncodingFixer.cs" />
+    <Compile Include="Kernel\Features\Helpers\FeatureApplyToField.cs" />
+    <Compile Include="Kernel\Features\Normalizer.cs" />
+    <Compile Include="Kernel\Features\PatternRemover.cs" />
+    <Compile Include="Kernel\Interfaces\IFeature.cs" />
+    <Compile Include="Kernel\Interfaces\IPresenter.cs" />
+    <Compile Include="Kernel\Interfaces\IView.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Composition.cs" />
+    <Compile Include="Kernel\Models\Composition.cs" />
     <Compile Include="Models\DataGridComposition.cs" />
-    <Compile Include="Models\IPictureModel.cs" />
-    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Kernel\Models\IPictureModel.cs" />
+    <Compile Include="Kernel\Presenters\MainPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -146,7 +153,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Icons\open-computer-folder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
