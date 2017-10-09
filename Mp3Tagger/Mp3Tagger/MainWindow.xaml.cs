@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Mp3Tagger.Kernel.Base.Attributes;
 using Mp3Tagger.Kernel.Base.Extensions;
+using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Presenters;
@@ -31,10 +32,11 @@ namespace Mp3Tagger
     public partial class MainWindow : Window, IView
     {
         private List<TextBox> editTabBoxes { get; set; }
+        
+        public ProcessingStateViewModel StateModel { get; set; }
+        public DataGridModel DataGridModel { get; set; }
 
-        public ProcessState CurrentState => presenter.CurrentState;
-
-        private MainPresenter presenter;
+        public MainPresenter Presenter { get; set; }
 
         public MainWindow()
         {
@@ -42,28 +44,26 @@ namespace Mp3Tagger
 
             this.DataContext = this;
 
-            editTabBoxes = new List<TextBox>();
+            editTabBoxes = new List<TextBox>();            
+            Presenter = new MainPresenter(this);
+            DataGridModel = new DataGridModel();            
 
-            presenter = new MainPresenter(this);
-            presenter.FeatureWorkStarted += Presenter_FeatureWorkStarted;
-            presenter.FeatureProgressUpdated += Presenter_FeatureProgressUpdated;
-            presenter.FeatureWorkCompleted += Presenter_FeatureWorkCompleted;
-            CompositionsDataGrid.ItemsSource = new List<DataGridComposition>();
-
-            GenerateEditTabPage();            
+            StateModel = new ProcessingStateViewModel();            
+            GenerateEditTabPage();
+            Presenter.FeatureStarted += SetState;
+            Presenter.FeatureStateUpdated += SetState;
+            Presenter.FeatureCompleted += SetState;
+            Presenter.FeatureCompleted +=
+                (feature, state) => DataGridModel.Compositions = Presenter.CurrentCompositions;
         }
 
-        private void Presenter_FeatureWorkStarted(IFeature arg1, int arg2)
-        {                        
-        }
-
-        private void Presenter_FeatureProgressUpdated(IFeature arg1, int arg2, int arg3)
-        {                        
-        }
-
-        private void Presenter_FeatureWorkCompleted(IFeature obj)
-        {            
-            CompositionsDataGrid.ItemsSource = presenter.Compositions.Select(c => new DataGridComposition(c));                        
+        private void SetState(IFeature feature, Kernel.ProcessingState state)
+        {
+            StateModel.IsBusy = state.IsBusy;
+            StateModel.CurrentFeature = state.CurrentFeature;
+            StateModel.Elapsed = state.Elapsed;
+            StateModel.OperationsCount = state.OperationsCount;
+            StateModel.OperationsPerformed = state.OperationsPerformed;
         }
 
         private void GenerateEditTabPage()
@@ -113,19 +113,26 @@ namespace Mp3Tagger
             }
         }
 
-        private void CompositionsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
+
         private void open_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
-                dialog.Description = "Choose a scane folder";
+                dialog.Description = "Choose a scan folder";
                 dialog.RootFolder = Environment.SpecialFolder.MyComputer;
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();                               
-                presenter.OpenCompositions(dialog.SelectedPath);                
+                Presenter.OpenCompositions(dialog.SelectedPath);                
             }            
+        }
+
+        private void buttonFixEncodingAll_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.ApplyFeatureForAll(FeatureName.EncodingFixer);
+        }
+
+        private void buttonFixEncodingSelected_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -8,65 +9,75 @@ using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Features.Helpers;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
+using Mp3Tagger.Kernel.Processing;
 using Mp3Tagger.Kernel.Settings;
 using Mp3Tagger.Models;
 
 namespace Mp3Tagger.Kernel.Features
 {
-    public class Normalizer : IFeature
+    public class Normalizer : IProcessingFeature
     {
         public string Name { get; set; }
 
-        public NormalizerSettings Settings { get; set; }
+        public IFeatureSettings Settings { get; set; }
+
+        private NormalizerSettings settings => (NormalizerSettings) Settings;
 
         public Normalizer()
         {
             Name = "Normalizing";
+            Initialize(new NormalizerSettings());
         }
 
-        public void Initialize(NormalizerSettings settings)
+        public void Initialize(IFeatureSettings settings)
         {
             Settings = settings;
         }
 
-        public async Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback,
-            Action<IFeature> progressCompletedCallback)
+        public async Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback)
         {
+            ProcessingState state = new ProcessingState()
+            {
+                CurrentFeature = this,
+                IsBusy = true,
+                OperationsCount = list.Count                
+            };
+
             await Task.Run(() =>
             {
                 for (var i = 0; i < list.Count; i++)
                 {
                     ApplyToComposition(list[i]);
-                    progressUpdatedCallback(this, i, list.Count);
+                    state.OperationsPerformed = i;
+                    progressUpdatedCallback(this, state);
                 }
-            });
-            progressCompletedCallback(this);
+            });            
         }
 
         public void ApplyToComposition(Composition composition)
         {
-            if (Settings == null) throw new ArgumentException("Initialize required!");
+            if (settings == null) throw new ArgumentException("Initialize required!");
 
             if (composition == null) return;
 
-            if (Settings.Trimming)
+            if (settings.Trimming)
             {
                 composition.Title = composition.Title.Trim();
                 composition.Album = composition.Album.Trim();
                 composition.Performer = composition.Performer.Trim();
             }
-            if (Settings.ChangeCase)
+            if (settings.ChangeCase)
             {
                 foreach (PropertyInfo propertyInfo in composition.GetType()
                     .GetProperties()
                     .Where(p => p.PropertyType == typeof(string)))
                 {
                     FeatureApplyToField removerApplyToField =
-                        Settings.CaseChangeApplyTo.FirstOrDefault(
+                        settings.CaseChangeApplyTo.FirstOrDefault(
                             s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
                     if (removerApplyToField != null && removerApplyToField.IsApply)
                     {
-                        if (Settings.CaseChangeMode == CaseChangeMode.AllWordsUpper)
+                        if (settings.CaseChangeMode == CaseChangeMode.AllWordsUpper)
                         {
                             PropertyInfo property = composition.GetType()
                                 .GetProperty(propertyInfo.Name);
@@ -76,7 +87,7 @@ namespace Mp3Tagger.Kernel.Features
                                         ((string) property
                                             .GetValue(composition)).AllWordsUpper());
                         }
-                        if (Settings.CaseChangeMode == CaseChangeMode.FirstWordUpper)
+                        if (settings.CaseChangeMode == CaseChangeMode.FirstWordUpper)
                         {
                             PropertyInfo property = composition.GetType()
                                 .GetProperty(propertyInfo.Name);
@@ -89,16 +100,16 @@ namespace Mp3Tagger.Kernel.Features
                     }
                 }
             }
-            if (Settings.RemoveChars)
+            if (settings.RemoveChars)
             {
-                Settings.CharsToRemove.ForEach(ch =>
+                settings.CharsToRemove.ForEach(ch =>
                 {
                     foreach (PropertyInfo propertyInfo in composition.GetType()
                         .GetProperties()
                         .Where(p => p.PropertyType == typeof(string)))
                     {
                         FeatureApplyToField removerApplyToField =
-                            Settings.CaseChangeApplyTo.FirstOrDefault(
+                            settings.CaseChangeApplyTo.FirstOrDefault(
                                 s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
                         if (removerApplyToField != null && removerApplyToField.IsApply)
                         {

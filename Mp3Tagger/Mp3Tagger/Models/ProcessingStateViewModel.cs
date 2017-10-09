@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Interfaces;
 
-namespace Mp3Tagger.Kernel.Models
+namespace Mp3Tagger.Models
 {
-    public class ProcessState : INotifyPropertyChanged
-    {
+    public class ProcessingStateViewModel : INotifyPropertyChanged
+    {        
         public bool IsBusy
         {
             get { return isBusy; }
@@ -22,24 +21,14 @@ namespace Mp3Tagger.Kernel.Models
             }
         }
 
-        public ObservableCollection<string> History
-        {
-            get { return history; }
-            set
-            {
-                history = value; 
-                OnPropertyChanged("History");
-            }
-        }
-
         public int OperationsCount
         {
             get { return operationsCount; }
             set
             {
-                operationsCount = value;
+                operationsCount = value; 
                 OnPropertyChanged("OperationsCount");
-                OnPropertyChanged("StateText");
+                OnPropertyChanged("ProgressText");
             }
         }
 
@@ -50,44 +39,43 @@ namespace Mp3Tagger.Kernel.Models
             {
                 operationsPerformed = value;
                 OnPropertyChanged("OperationsPerformed");
-                OnPropertyChanged("StateText");
+                OnPropertyChanged("ProgressText");
             }
         }
 
-        public string StateText
+        public IFeature CurrentFeature
         {
-            get { return $"Processed: {OperationsPerformed}/{OperationsCount}"; }
+            get { return currentFeature; }
             set
             {
-                stateText = value;
-                OnPropertyChanged("StateText");
-            }
+                currentFeature = value; 
+                OnPropertyChanged("CurrentFeature");
+            }            
         }
 
-        public string CurrentFeatureName
+        public string ProgressText
         {
-            get { return currentFeatureName; }
+            get { return $"Processing: {OperationsPerformed}/{OperationsCount}"; }
             set
             {
-                currentFeatureName = value;
-                OnPropertyChanged("CurrentFeatureName");
+                progressText = value;
+                OnPropertyChanged("ProgressText");
             }
         }
 
         private bool isBusy;
         private int operationsCount;
         private int operationsPerformed;
-        private string stateText;
-        private string currentFeatureName;
-        private int totalCompositions;
-        private ObservableCollection<string> history;
+        private TimeSpan elapsed;
+        private IFeature currentFeature;
+        private string progressText;
 
-        public ProcessState()
+        public TimeSpan Elapsed
         {
-            CurrentFeatureName = "Ready";
-            History = new ObservableCollection<string>();
-            History.CollectionChanged += (sender, args) => OnPropertyChanged("History");
+            get { return elapsed; }
+            set { elapsed = value; }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

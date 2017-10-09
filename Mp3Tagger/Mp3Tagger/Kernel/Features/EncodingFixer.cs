@@ -1,35 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
+using Mp3Tagger.Kernel.Processing;
 using Mp3Tagger.Models;
 
 namespace Mp3Tagger.Kernel.Features
 {
-    public class EncodingFixer : IFeature
+    public class EncodingFixer : IProcessingFeature
     {
         public string Name { get; set; }
-
+        public IFeatureSettings Settings { get; private set; }
+                
         public EncodingFixer()
         {
             Name = "Encoding fixing";
         }
 
-        public async Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
+        public void Initialize(IFeatureSettings settings)
         {
+            Settings = settings;
+        }
+
+        public async Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback)
+        {
+            ProcessingState state = new ProcessingState
+            {
+                OperationsCount = list.Count                
+            };
             await Task.Run(() =>
             {
                 for (var index = 0; index < list.Count; index++)
                 {
+                    state.OperationsPerformed = index + 1;
                     ApplyToComposition(list[index]);
-                    progressUpdatedCallback(this, index, list.Count);
+                    progressUpdatedCallback(this, state);
                 }
-            });
-            progressCompletedCallback(this);
+            });            
         }
-        
+
         public void ApplyToComposition(Composition composition)
         {
             composition.Album = ToUtf8(composition.Album);
@@ -59,6 +71,6 @@ namespace Mp3Tagger.Kernel.Features
             return new string(unknown.ToCharArray()
                 .Select(x => ((x + 848) >= 'А' && (x + 848) <= 'ё') ? (char)(x + 848) : x)
                 .ToArray());
-        }
+        }        
     }
 }

@@ -7,8 +7,7 @@ namespace Mp3Tagger.Kernel.Interfaces
 {
     public interface IFeature
     {
-        string Name { get; set; }
-        Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback);
-        void ApplyToComposition(Composition composition);        
+        IFeatureSettings Settings { get;}
+        void Initialize(IFeatureSettings settings);                        
     }
 }

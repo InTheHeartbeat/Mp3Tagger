@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -7,25 +8,26 @@ using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Features.Helpers;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
+using Mp3Tagger.Kernel.Processing;
 using Mp3Tagger.Kernel.Settings;
 using Mp3Tagger.Models;
 
 namespace Mp3Tagger.Kernel.Features
 {
-    public class PatternRemover : IFeature
+    public class PatternRemover : IProcessingFeature
     {
-        public string Name { get; set; }
+        public IFeatureSettings Settings { get; private set; }
 
-        public PatternRemoverSettings PatternRemoverSettings { get; set; }      
+        private PatternRemoverSettings settings => (PatternRemoverSettings) Settings;
 
         public PatternRemover()
-        {
-            Name = "Pattern removing";
+        {            
+            Initialize(new PatternRemoverSettings());
         }
 
-        public void Initialize(PatternRemoverSettings settings)
+        public void Initialize(IFeatureSettings settings)
         {
-            PatternRemoverSettings = settings;
+            Settings = settings;
         }
 
         public async Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
@@ -39,17 +41,22 @@ namespace Mp3Tagger.Kernel.Features
                 }
             });
             progressCompletedCallback(this);
-        }        
+        }
+
+        public Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback)
+        {
+            throw new NotImplementedException();
+        }
 
         public void ApplyToComposition(Composition composition)
         {            
             foreach (PropertyInfo propertyInfo in composition.GetType().GetProperties().Where(p=>p.PropertyType == typeof(string)))
             {
                 FeatureApplyToField removerApplyToField =
-                    PatternRemoverSettings.ApplyToSettings.FirstOrDefault(s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
+                    settings.ApplyToSettings.FirstOrDefault(s => s.FieldName.Trim().ToLower() == propertyInfo.Name.Trim().ToLower());
                 if (removerApplyToField != null && removerApplyToField.IsApply)
                 {
-                    if (PatternRemoverSettings.RemoveByPatternList)
+                    if (settings.RemoveByPatternList)
                     {
                         PropertyInfo property = composition.GetType()
                             .GetProperty(propertyInfo.Name);
@@ -59,7 +66,7 @@ namespace Mp3Tagger.Kernel.Features
                                     CleanStringByPatternList((string) property
                                         .GetValue(composition)));
                     }
-                    if (PatternRemoverSettings.RemoveByBracketsList)
+                    if (settings.RemoveByBracketsList)
                     {
                         PropertyInfo property = composition.GetType()
                             .GetProperty(propertyInfo.Name);
@@ -77,7 +84,7 @@ namespace Mp3Tagger.Kernel.Features
         {
             if (!string.IsNullOrWhiteSpace(data))
             {
-                foreach (string pattern in PatternRemoverSettings.PatternList)
+                foreach (string pattern in settings.PatternList)
                 {
                     if (data.Contains(pattern))
                     {
@@ -92,13 +99,13 @@ namespace Mp3Tagger.Kernel.Features
         {
             if (!string.IsNullOrWhiteSpace(data))
             {
-                foreach (string pattern in PatternRemoverSettings.BracketsList)
+                foreach (string pattern in settings.BracketsList)
                 {
                     Regex regex = new Regex("\\" + pattern.First() + @"(.*?)" + "\\" + pattern.Last());
                     data = regex.Replace(data, "");
                 }
             }
             return data;
-        }
+        }        
     }
 }

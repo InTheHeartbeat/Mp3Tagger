@@ -59,12 +59,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\CompostionsListToDataGridCompositionsListConverter.cs" />
     <Compile Include="Kernel\Base\Attributes\CustomFieldHeightRequired.cs" />
+    <Compile Include="Kernel\FeatureKitEntry.cs" />
+    <Compile Include="Kernel\FeaturesKit.cs" />
     <Compile Include="Kernel\Features\IO\FileSystemWalker.cs" />
+    <Compile Include="Kernel\History\HistoryEntry.cs" />
+    <Compile Include="Kernel\History\HistoryKeeper.cs" />
+    <Compile Include="Kernel\Interfaces\IFeatureSettings.cs" />
     <Compile Include="Kernel\Interfaces\IIOFeature.cs" />
-    <Compile Include="Kernel\Models\ProcessState.cs" />
+    <Compile Include="Kernel\Interfaces\IProcessingFeature.cs" />
+    <Compile Include="Kernel\Mp3TaggerKernel.cs" />
+    <Compile Include="Kernel\ProcessingState.cs" />
+    <Compile Include="Kernel\Processing\IOFeatureRunner.cs" />
+    <Compile Include="Kernel\Processing\ProcessingFeatureRunner.cs" />
+    <Compile Include="Kernel\Settings\CompositionsLoaderSettings.cs" />
+    <Compile Include="Kernel\Settings\FileSystemWalkerSettings.cs" />
     <Compile Include="Kernel\Settings\NormalizerSettings.cs" />
     <Compile Include="Kernel\Settings\PatternRemoverSettings.cs" />
+    <Compile Include="Models\DataGridModel.cs" />
+    <Compile Include="Models\HistoryKeeperViewModel.cs" />
+    <Compile Include="Models\ProcessingStateViewModel.cs" />
     <Compile Include="UserControls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
@@ -77,7 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Kernel\Enums\CaseChangeMode.cs" />
-    <Compile Include="Kernel\Enums\Feature.cs" />
+    <Compile Include="Kernel\Enums\FeatureName.cs" />
     <Compile Include="Kernel\Base\Extensions\StringExtensions.cs" />
     <Compile Include="Kernel\Features\CompositionsLoader.cs" />
     <Compile Include="Kernel\Features\EncodingFixer.cs" />
@@ -158,8 +173,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Converters\" />
+    <Resource Include="Images\Icons\magic-wand-auto-fix-button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mp3Tagger"
         xmlns:userControls="clr-namespace:Mp3Tagger.UserControls"
+        xmlns:converters="clr-namespace:Mp3Tagger.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800"
         FontStretch="UltraExpanded"
@@ -30,8 +31,15 @@
                             <TextBlock VerticalAlignment="Center">Fix encoding</TextBlock>
                         </StackPanel>
                     </MenuItem.Header>
-                    <MenuItem Header="All"></MenuItem>
-                    <MenuItem Header="Selected"></MenuItem>
+                    <MenuItem x:Name="buttonMenuFixEncodingAll" Header="All" Click="buttonFixEncodingAll_Click"></MenuItem>
+                    <MenuItem x:Name="buttonMenuFixEncodingSelected" Header="Selected" Click="buttonFixEncodingSelected_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Height="22">
+                            <TextBlock VerticalAlignment="Center">Settings</TextBlock>
+                        </StackPanel>
+                        </MenuItem.Header>
                 </MenuItem>
             </Menu>
             <ToolBarTray>
@@ -46,7 +54,12 @@
                     </userControls:ImageButton>
                 </ToolBar>
                 <ToolBar VerticalAlignment="Top">
-                    <Button>1</Button>
+                    <userControls:ImageButton
+                        Click="buttonFixEncodingAll_Click"
+                        Width="20"
+                        Height="20"
+                        NormalImage="/Images/Icons/magic-wand-auto-fix-button.png"
+                        ></userControls:ImageButton>
                     <Button>2</Button>
                     <Button>3</Button>
                 </ToolBar>
@@ -67,7 +80,13 @@
                     <ColumnDefinition Width="*" MinWidth="180" MaxWidth="220"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 
-                <DataGrid x:Name="CompositionsDataGrid" Grid.Column="0" RowHeight="20" SelectionMode="Single" SelectionChanged="CompositionsDataGrid_SelectionChanged"/>
+                <DataGrid x:Name="CompositionsDataGrid" 
+                          ClipboardCopyMode="ExcludeHeader"
+                          Grid.Column="0" 
+                          RowHeight="20" 
+                          SelectionMode="Single"
+                          ColumnWidth="SizeToCells"
+                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}"/>
 
                 <GridSplitter Grid.Column="1"
                               Width="2"
@@ -108,19 +127,19 @@
                               VerticalAlignment="Stretch"
                               ResizeDirection="Columns"
                               Background="LightGray" Margin="1,0"/>
-                <ListBox x:Name="historyListBox" ItemsSource="{Binding Path=CurrentState.History}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ListBox x:Name="historyListBox" ItemsSource="{Binding Path=Presenter.Kernel.HistoryKeeper.History}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
 
             <StatusBar x:Name="StatusBar"  Grid.Row="3" Height="23" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                <StatusBarItem Content="{Binding Path=CurrentState.CurrentFeatureName}"></StatusBarItem>
+                <StatusBarItem Content="{Binding Path=StateModel.CurrentFeature.Name}"></StatusBarItem>
                 <StatusBarItem Margin="200,0,0,0" Content="Selected:"></StatusBarItem>
                 <StatusBarItem Margin="0,0,0,0" Content="{Binding ElementName=CompositionsDataGrid, Path=SelectedIndex}"></StatusBarItem>
                 <StatusBarItem Margin="50,0,0,0" Content="Total count:"></StatusBarItem>
                 <StatusBarItem Margin="0,0,0,0" Content="{Binding ElementName=CompositionsDataGrid, Path=Items.Count}"></StatusBarItem>
                 <StatusBarItem HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=CurrentState.StateText}" Visibility="{Binding Path=CurrentState.IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" HorizontalAlignment="Right"  Grid.Column="2" Margin="0,0,10,0"/>
-                        <ProgressBar x:Name="statusBarProgressBar" Grid.Column="2"  Width="100" Height="17" HorizontalAlignment="Right"  Maximum="{Binding Path=CurrentState.OperationsCount}" Minimum="0" Value="{Binding Path=CurrentState.OperationsPerformed, Mode=OneWay}" Visibility="{Binding Path=CurrentState.IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                        <TextBlock Text="{Binding Path=StateModel.ProgressText}" Visibility="{Binding Path=StateModel.IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" HorizontalAlignment="Right"  Grid.Column="2" Margin="0,0,10,0"/>
+                        <ProgressBar x:Name="statusBarProgressBar" Grid.Column="2"  Width="100" Height="17" HorizontalAlignment="Right"  Maximum="{Binding Path=StateModel.OperationsCount}" Minimum="0" Value="{Binding Path=StateModel.OperationsPerformed, Mode=OneWay}" Visibility="{Binding Path=StateModel.IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>

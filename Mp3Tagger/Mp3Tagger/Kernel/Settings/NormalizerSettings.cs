@@ -3,11 +3,12 @@ using System.Linq;
 using Mp3Tagger.Kernel.Base.Extensions;
 using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Features.Helpers;
+using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 
 namespace Mp3Tagger.Kernel.Settings
 {
-    public class NormalizerSettings
+    public class NormalizerSettings : IFeatureSettings
     {
         public bool Trimming { get; set; }
         public bool ChangeCase { get; set; }

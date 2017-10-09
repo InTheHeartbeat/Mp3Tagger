@@ -6,41 +6,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
+using Mp3Tagger.Kernel.Processing;
+using Mp3Tagger.Kernel.Settings;
 
 namespace Mp3Tagger.Kernel.Features.IO
 {
     public class FileSystemWalker : IIOFeature
-    {
-        public string Name { get; set; }
-        public DirectoryInfo Root { get; set; }
+    {                
+        private readonly FileSystemWalkerSettings fileSystemWalkerSettings;
 
-        private static int _totalCount;
-        private static int _totalPerformed;
+        public IFeatureSettings Settings { get; private set; }
 
-        public FileSystemWalker()
-        {
-            Name = "Files searching";
+        private FileSystemWalkerSettings settings => (FileSystemWalkerSettings) Settings;        
+
+        public FileSystemWalker(FileSystemWalkerSettings settings)
+        {            
+            fileSystemWalkerSettings = settings;
         }
 
-        public void Initialize(string root)
+        public void Initialize(IFeatureSettings settings)
         {
-            _totalCount = 0;
-            _totalPerformed = 0;
-            Root = new DirectoryInfo(root);
+            Settings = settings;
         }
 
-        public Task ApplyToList(List<Composition> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
-        {return null;}
-
-        public void ApplyToComposition(Composition composition)
-        {return;}
-
-        public async Task ApplyToList(List<string> list, Action<IFeature, int, int> progressUpdatedCallback, Action<IFeature> progressCompletedCallback)
+        public async Task ApplyToList(List<FileInfo> list, Action<IIOFeature, ProcessingState> progressUpdatedCallback)
         {
-            await Task.Run(() => WalkDirectoryTree(Root, list.Add,progressUpdatedCallback));
+            ProcessingState state = new ProcessingState
+            {
+                CurrentFeature = this,
+                IsBusy = true                
+            };
+            await Task.Run(() => WalkDirectoryTree(new DirectoryInfo(settings.Root), list.Add,progressUpdatedCallback, state));            
         }
 
-        private void WalkDirectoryTree(DirectoryInfo root, Action<string> searched, Action<IFeature, int, int> progressUpdatedCallback)
+        private void WalkDirectoryTree(DirectoryInfo root, Action<FileInfo> searched, Action<IIOFeature, ProcessingState> progressUpdatedCallback, ProcessingState state)
         {
             System.IO.FileInfo[] files = null;
             try
@@ -59,14 +58,24 @@ namespace Mp3Tagger.Kernel.Features.IO
             {
                 foreach (FileInfo file in files)
                 {
-                    searched(file.FullName);
+                    if (fileSystemWalkerSettings.MinFileBytes <= 0)
+                    { searched(file); }
+                    else
+                    {
+                        if (file.Length >= fileSystemWalkerSettings.MinFileBytes)
+                        {
+                            searched(file);
+                        }
+                    }                    
                 }
+                
                 var subDirs = root.GetDirectories();
-                _totalCount += subDirs.Length;
+                state.OperationsCount += subDirs.Length;
                 foreach (DirectoryInfo dirInfo in subDirs)
                 {
-                    progressUpdatedCallback(this, ++_totalPerformed, _totalCount);
-                    WalkDirectoryTree(dirInfo, searched, progressUpdatedCallback);
+                    state.OperationsPerformed++;
+                    progressUpdatedCallback(this, state);
+                    WalkDirectoryTree(dirInfo, searched, progressUpdatedCallback,state);
                 }
             }
         }

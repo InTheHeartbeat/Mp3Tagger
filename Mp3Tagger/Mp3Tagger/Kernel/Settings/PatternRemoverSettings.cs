@@ -2,11 +2,12 @@
 using System.Linq;
 using Mp3Tagger.Kernel.Base.Extensions;
 using Mp3Tagger.Kernel.Features.Helpers;
+using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 
 namespace Mp3Tagger.Kernel.Settings
 {
-    public class PatternRemoverSettings
+    public class PatternRemoverSettings : IFeatureSettings
     {
         public List<string> PatternList { get; set; }
         public List<string> BracketsList { get; set; }

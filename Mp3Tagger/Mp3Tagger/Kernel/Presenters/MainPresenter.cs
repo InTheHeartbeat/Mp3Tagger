@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Features;
 using Mp3Tagger.Kernel.Features.IO;
+using Mp3Tagger.Kernel.History;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Settings;
@@ -12,116 +14,58 @@ namespace Mp3Tagger.Kernel.Presenters
 {
     public sealed class MainPresenter : IPresenter
     {
-        public List<Composition> Compositions;
-                
-        public ProcessState CurrentState { get; set; }
+        public ObservableCollection<Composition> CurrentCompositions;
 
-        public event Action<IFeature, int> FeatureWorkStarted;
-        public event Action<IFeature> FeatureWorkCompleted;
-        public event Action<IFeature, int, int> FeatureProgressUpdated;
+        public event Action<IFeature, ProcessingState> FeatureStarted;
+        public event Action<IFeature, ProcessingState> FeatureCompleted;
+        public event Action<IFeature, ProcessingState> FeatureStateUpdated;
 
-        public PatternRemoverSettings PatternRemoverSettings => patternRemover.PatternRemoverSettings;
-        public NormalizerSettings NormalizerSettings => normalizer.Settings;
-
-        private IView _view;
-
-        private FileSystemWalker fileSystemWalker;
-
-        private CompositionsLoader compositionsLoader;
-
-        private EncodingFixer encodingFixer;
-        private PatternRemover patternRemover;
-        private Normalizer normalizer;        
+        public Mp3TaggerKernel Kernel { get; set; }
 
         public MainPresenter(IView view)
-        {
-            _view = view;
+        {            
             Initialize();
         }
 
         private void Initialize()
-        {
-            fileSystemWalker = new FileSystemWalker();
-            encodingFixer = new EncodingFixer();
-            compositionsLoader = new CompositionsLoader();
-            patternRemover = new PatternRemover();
-            patternRemover.Initialize(new PatternRemoverSettings());
-            normalizer = new Normalizer();
-            normalizer.Initialize(new NormalizerSettings());
-            Compositions = new List<Composition>();
-            CurrentState = new ProcessState();
+        {            
+            Kernel = new Mp3TaggerKernel();            
+            CurrentCompositions = new ObservableCollection<Composition>();
+
+            Kernel.ProcessingFeatureRunner.ProcessingStarted += OnFeatureStarted;
+            Kernel.ProcessingFeatureRunner.ProcessingStateUpdated += OnFeatureStateUpdated;
+            Kernel.ProcessingFeatureRunner.ProcessingCompleted += OnFeatureCompleted;
+            Kernel.IoFeatureRunner.ProcessingStarted += OnFeatureStarted;
+            Kernel.IoFeatureRunner.ProcessingStateUpdated += OnFeatureStateUpdated;
+            Kernel.IoFeatureRunner.ProcessingCompleted += OnFeatureCompleted;
         }
 
-        public async void ApplyFeatureForAll(Feature feature)
-        {
-            switch (feature)
-            {
-                case Feature.EncodingFixer:
-                    await ApplyFeatureConcreteFeatureForAll(encodingFixer);
-                    break;
-                case Feature.PatternRemover:
-                    await ApplyFeatureConcreteFeatureForAll(patternRemover);
-                    break;
-                case Feature.Normalizer:
-                    await ApplyFeatureConcreteFeatureForAll(normalizer);
-                    break;
-            }
+        public async void ApplyFeatureForAll(FeatureName featureName)
+        {            
+            await Kernel.ProcessingFeatureRunner.PerformProcessorByList(CurrentCompositions,
+                (IProcessingFeature) Kernel.Features.GetFeatureEntryByName(featureName).Feature);                        
         }
-
-        public async void ApplyFeatureForSelected(Feature feature, List<Composition> selected)
-        {
-            switch (feature)
-            {
-                    case Feature.EncodingFixer:
-                        await ApplyFeatureConcreteFeatureForSelected(encodingFixer,selected);
-                    break;
-            }
-        }
+       
 
         public async void OpenCompositions(string path)
         {
-            fileSystemWalker.Initialize(path);
-            List<string> searchedFiles = new List<string>();
-            OnFeatureWorkStarted(fileSystemWalker,0);
-            await fileSystemWalker.ApplyToList(searchedFiles, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
-
-            Compositions = new List<Composition>();
-            compositionsLoader.Initialize(searchedFiles);
-            OnFeatureWorkStarted(compositionsLoader, searchedFiles.Count);
-            await compositionsLoader.ApplyToList(Compositions,OnFeatureProgressUpdated,OnFeatureWorkCompleted);
+            await Kernel.InitilizeCompositions(path);            
         }
 
-        private async Task ApplyFeatureConcreteFeatureForAll(IFeature featureInstace)
+        private void OnFeatureStarted(IFeature arg1, ProcessingState arg2)
         {
-            OnFeatureWorkStarted(featureInstace,Compositions.Count);
-            await featureInstace.ApplyToList(Compositions, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
-        }
-        private async Task ApplyFeatureConcreteFeatureForSelected(IFeature featureInstace, List<Composition> selected)
-        {
-            OnFeatureWorkStarted(featureInstace, Compositions.Count);
-            await featureInstace.ApplyToList(selected, OnFeatureProgressUpdated, OnFeatureWorkCompleted);
+            FeatureStarted?.Invoke(arg1, arg2);
         }
 
-        #region Event invokators
-        private void OnFeatureWorkStarted(IFeature feature,int operationCount)
+        private void OnFeatureCompleted(IFeature arg1, ProcessingState arg2)
         {
-            CurrentState.IsBusy = true;
-            CurrentState.CurrentFeatureName = feature.Name;
-            CurrentState.History.Add(feature.Name);
-            FeatureWorkStarted?.Invoke(feature,operationCount);
+            CurrentCompositions = Kernel.Compositions;
+            FeatureCompleted?.Invoke(arg1, arg2);
         }
-        private void OnFeatureWorkCompleted(IFeature feature)
+
+        private void OnFeatureStateUpdated(IFeature arg1, ProcessingState arg2)
         {
-            CurrentState.IsBusy = false;
-            CurrentState.CurrentFeatureName = "Ready";
-            FeatureWorkCompleted?.Invoke(feature);
+            FeatureStateUpdated?.Invoke(arg1, arg2);
         }
-        private void OnFeatureProgressUpdated(IFeature feature, int performed, int of)
-        {
-            CurrentState.OperationsCount = of;            
-            CurrentState.OperationsPerformed = performed;
-            FeatureProgressUpdated?.Invoke(feature, performed, of);
-        }
-        #endregion
     }
 }

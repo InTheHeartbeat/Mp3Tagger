@@ -1,9 +1,11 @@
 ﻿namespace Mp3Tagger.Kernel.Enums
 {
-    public enum Feature
+    public enum FeatureName
     {
         EncodingFixer = 1,
         PatternRemover = 2,
-        Normalizer = 3
+        Normalizer = 3,
+        FileSystemWalker,
+        CompositionLoader
     }
 }
