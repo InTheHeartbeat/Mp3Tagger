@@ -28,6 +28,10 @@ namespace Mp3Tagger.Kernel
         public ProcessingFeatureRunner ProcessingFeatureRunner { get; private set; }
         public IOFeatureRunner IoFeatureRunner { get; private set; }        
 
+        public ProcessingState CurrentState { get; private set; }
+
+        public event Action<ProcessingState> ProcessingStateChanged; 
+
         public Mp3TaggerKernel()
         {
            Initialize();
@@ -41,11 +45,31 @@ namespace Mp3Tagger.Kernel
             IoFeatureRunner = new IOFeatureRunner();
 
             ProcessingFeatureRunner.ProcessingCompleted +=
-                (feature, state) => HistoryKeeper.History.Add(
-                    new HistoryEntry() { Elapsed = state.Elapsed, UsedFeature = Features.GetFeatureEntryByFeature(feature)});
+                (state) =>
+                {
+                    HistoryKeeper.History.Add(
+                        new HistoryEntry()
+                        {
+                            Elapsed = state.Elapsed,
+                            UsedFeature = Features.GetFeatureEntryByFeature(state.CurrentFeature)
+                        });
+                    OnProcessingStateChanged(ProcessingFeatureRunner.CurrentState);
+                };
             IoFeatureRunner.ProcessingCompleted +=
-                (feature, state) => HistoryKeeper.History.Add(
-                    new HistoryEntry() { Elapsed = state.Elapsed, UsedFeature = Features.GetFeatureEntryByFeature(feature)});            
+                (state) =>
+                {
+                    HistoryKeeper.History.Add(
+                        new HistoryEntry()
+                        {
+                            Elapsed = state.Elapsed,
+                            UsedFeature = Features.GetFeatureEntryByFeature(state.CurrentFeature)
+                        });
+                    OnProcessingStateChanged(IoFeatureRunner.CurrentState);
+                };
+
+            ProcessingFeatureRunner.ProcessingStateUpdated +=
+                report => OnProcessingStateChanged(ProcessingFeatureRunner.CurrentState);
+            IoFeatureRunner.ProcessingStateUpdated += report => OnProcessingStateChanged(IoFeatureRunner.CurrentState);
         }
 
         public async Task InitilizeCompositions(string path)
@@ -62,6 +86,11 @@ namespace Mp3Tagger.Kernel
             CompositionsLoader compositionsLoader = (CompositionsLoader)Features.GetFeatureEntryByName(FeatureName.CompositionLoader).Feature;
             compositionsLoader.Initialize(new CompositionsLoaderSettings(),searchedFiles);
             await ProcessingFeatureRunner.PerformProcessorByList(Compositions, compositionsLoader);                                    
-        }   
+        }
+
+        protected virtual void OnProcessingStateChanged(ProcessingState obj)
+        {
+            ProcessingStateChanged?.Invoke(obj);
+        }
     }
 }

@@ -25,19 +25,19 @@ namespace Mp3Tagger.Kernel.Features
             Settings = settings;
         }
 
-        public async Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback)
+        public async Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback)
         {
-            ProcessingState state = new ProcessingState
+            FeatureProcessReport progressReport = new FeatureProcessReport
             {
-                OperationsCount = list.Count                
+                TotalOperations = list.Count                
             };
             await Task.Run(() =>
             {
                 for (var index = 0; index < list.Count; index++)
                 {
-                    state.OperationsPerformed = index + 1;
+                    progressReport.PerformedOperations = index + 1;
                     ApplyToComposition(list[index]);
-                    progressUpdatedCallback(this, state);
+                    progressUpdatedCallback(progressReport);
                 }
             });            
         }

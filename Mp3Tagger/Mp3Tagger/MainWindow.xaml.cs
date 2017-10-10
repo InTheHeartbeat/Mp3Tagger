@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Mp3Tagger.Kernel;
 using Mp3Tagger.Kernel.Base.Attributes;
 using Mp3Tagger.Kernel.Base.Extensions;
 using Mp3Tagger.Kernel.Enums;
@@ -49,21 +50,18 @@ namespace Mp3Tagger
             DataGridModel = new DataGridModel();            
 
             StateModel = new ProcessingStateViewModel();            
-            GenerateEditTabPage();
-            Presenter.FeatureStarted += SetState;
-            Presenter.FeatureStateUpdated += SetState;
-            Presenter.FeatureCompleted += SetState;
-            Presenter.FeatureCompleted +=
-                (feature, state) => DataGridModel.Compositions = Presenter.CurrentCompositions;
+            GenerateEditTabPage();            
+            Presenter.Kernel.ProcessingStateChanged += SetState;
+            Presenter.FeatureCompleted += state => DataGridModel.Compositions = Presenter.CurrentCompositions;              
         }
 
-        private void SetState(IFeature feature, Kernel.ProcessingState state)
+        private void SetState(ProcessingState state)
         {
             StateModel.IsBusy = state.IsBusy;
             StateModel.CurrentFeature = state.CurrentFeature;
             StateModel.Elapsed = state.Elapsed;
             StateModel.OperationsCount = state.OperationsCount;
-            StateModel.OperationsPerformed = state.OperationsPerformed;
+            StateModel.OperationsPerformed = state.PerformedOperations;
         }
 
         private void GenerateEditTabPage()
@@ -133,6 +131,11 @@ namespace Mp3Tagger
         private void buttonFixEncodingSelected_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CompositionsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var a = CompositionsDataGrid.SelectedItem;
         }
     }
 }

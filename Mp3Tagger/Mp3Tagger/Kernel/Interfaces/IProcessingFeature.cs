@@ -11,7 +11,7 @@ namespace Mp3Tagger.Kernel.Interfaces
 {
     public interface IProcessingFeature : IFeature
     {
-        Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback);
+        Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback);
         void ApplyToComposition(Composition composition);
     }
 }

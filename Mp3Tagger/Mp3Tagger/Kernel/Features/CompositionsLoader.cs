@@ -47,16 +47,14 @@ namespace Mp3Tagger.Kernel.Features
             this.files = files;
         }        
 
-        public async Task ApplyToList(ObservableCollection<Composition> list, Action<IProcessingFeature, ProcessingState> progressUpdatedCallback)
+        public async Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback)
         {
             if(files == null)
             {throw new ArgumentException("First you need to initialize path!");}
 
-            ProcessingState state = new ProcessingState
-            {
-                IsBusy = true,
-                CurrentFeature = this,
-                OperationsCount = files.Count
+            FeatureProcessReport processReport = new FeatureProcessReport
+            {               
+                TotalOperations = files.Count
             };
             await Task.Run(() =>
             {
@@ -66,8 +64,8 @@ namespace Mp3Tagger.Kernel.Features
                     {
                         Composition composition = new Composition(new AudioFile(files[index].FullName));
                         list.Add(composition);                        
-                        state.OperationsPerformed = index+1;
-                        progressUpdatedCallback(this,state);
+                        processReport.PerformedOperations = index+1;
+                        progressUpdatedCallback(processReport);
                     }
                     catch (Exception e)
                     {

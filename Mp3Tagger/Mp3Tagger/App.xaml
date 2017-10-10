@@ -6,6 +6,55 @@
              StartupUri="MainWindow.xaml"
              xmlns:c="clr-namespace:Mp3Tagger.Converters">
     <Application.Resources>
+        <SolidColorBrush x:Key="DataGridBackground">#ECEFF1</SolidColorBrush>
+        
+        
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="FontWeight"  Value="DemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#CFD8DC" />
+            <Setter Property="Height" Value="23" />
+            <Setter Property="BorderThickness" Value="1,0,1,0" />
+            <Setter Property="BorderBrush" Value="#B0BEC5" />
+            <Setter Property="Padding" Value="7,0,7,0" />
+        </Style>
+
+        <Style x:Key="cellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="Background" Value="{StaticResource DataGridBackground}" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{StaticResource DataGridBackground}" BorderThickness="0">
+                            <Border x:Name="border"
+                                        BorderBrush="#607D8B"
+                                        BorderThickness="1"
+                                        Background="{StaticResource DataGridBackground}"
+                                        CornerRadius="2">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="#0288D1"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="rowStyle" TargetType="DataGridRow">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,2,0,0" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="{StaticResource DataGridBackground}" />
+        </Style>
+
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="./Fonts/#Raleway" />
             <Setter Property="FontStretch" Value="Medium"/>

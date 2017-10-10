@@ -69,6 +69,7 @@
     <Compile Include="Kernel\Interfaces\IFeatureSettings.cs" />
     <Compile Include="Kernel\Interfaces\IIOFeature.cs" />
     <Compile Include="Kernel\Interfaces\IProcessingFeature.cs" />
+    <Compile Include="Kernel\Models\FeatureProcessReport.cs" />
     <Compile Include="Kernel\Mp3TaggerKernel.cs" />
     <Compile Include="Kernel\ProcessingState.cs" />
     <Compile Include="Kernel\Processing\IOFeatureRunner.cs" />

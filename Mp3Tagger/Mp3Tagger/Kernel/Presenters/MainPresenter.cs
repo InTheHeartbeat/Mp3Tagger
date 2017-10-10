@@ -14,11 +14,10 @@ namespace Mp3Tagger.Kernel.Presenters
 {
     public sealed class MainPresenter : IPresenter
     {
-        public ObservableCollection<Composition> CurrentCompositions;
+        public ObservableCollection<Composition> CurrentCompositions => Kernel.Compositions;
 
-        public event Action<IFeature, ProcessingState> FeatureStarted;
-        public event Action<IFeature, ProcessingState> FeatureCompleted;
-        public event Action<IFeature, ProcessingState> FeatureStateUpdated;
+        public event Action<ProcessingState> FeatureStarted;
+        public event Action<ProcessingState> FeatureCompleted;
 
         public Mp3TaggerKernel Kernel { get; set; }
 
@@ -29,15 +28,13 @@ namespace Mp3Tagger.Kernel.Presenters
 
         private void Initialize()
         {            
-            Kernel = new Mp3TaggerKernel();            
-            CurrentCompositions = new ObservableCollection<Composition>();
+            Kernel = new Mp3TaggerKernel();                        
 
-            Kernel.ProcessingFeatureRunner.ProcessingStarted += OnFeatureStarted;
-            Kernel.ProcessingFeatureRunner.ProcessingStateUpdated += OnFeatureStateUpdated;
+            Kernel.ProcessingFeatureRunner.ProcessingStarted += OnFeatureStarted;            
             Kernel.ProcessingFeatureRunner.ProcessingCompleted += OnFeatureCompleted;
-            Kernel.IoFeatureRunner.ProcessingStarted += OnFeatureStarted;
-            Kernel.IoFeatureRunner.ProcessingStateUpdated += OnFeatureStateUpdated;
-            Kernel.IoFeatureRunner.ProcessingCompleted += OnFeatureCompleted;
+
+            Kernel.IoFeatureRunner.ProcessingStarted += OnFeatureStarted;            
+            Kernel.IoFeatureRunner.ProcessingCompleted += OnFeatureCompleted;            
         }
 
         public async void ApplyFeatureForAll(FeatureName featureName)
@@ -52,20 +49,14 @@ namespace Mp3Tagger.Kernel.Presenters
             await Kernel.InitilizeCompositions(path);            
         }
 
-        private void OnFeatureStarted(IFeature arg1, ProcessingState arg2)
+        private void OnFeatureStarted(ProcessingState obj)
         {
-            FeatureStarted?.Invoke(arg1, arg2);
+            FeatureStarted?.Invoke(obj);
         }
 
-        private void OnFeatureCompleted(IFeature arg1, ProcessingState arg2)
+        private void OnFeatureCompleted(ProcessingState obj)
         {
-            CurrentCompositions = Kernel.Compositions;
-            FeatureCompleted?.Invoke(arg1, arg2);
-        }
-
-        private void OnFeatureStateUpdated(IFeature arg1, ProcessingState arg2)
-        {
-            FeatureStateUpdated?.Invoke(arg1, arg2);
+            FeatureCompleted?.Invoke(obj);
         }
     }
 }

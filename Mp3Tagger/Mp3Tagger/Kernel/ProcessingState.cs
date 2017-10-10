@@ -7,7 +7,7 @@ namespace Mp3Tagger.Kernel
     {
         public bool IsBusy { get; set; }
         public int OperationsCount { get; set; }
-        public int OperationsPerformed { get; set; }
+        public int PerformedOperations { get; set; }
         public IFeature CurrentFeature { get; set; }
         public TimeSpan Elapsed { get; set; }
     }

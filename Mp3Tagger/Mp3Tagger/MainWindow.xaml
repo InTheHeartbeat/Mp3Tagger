@@ -83,10 +83,14 @@
                 <DataGrid x:Name="CompositionsDataGrid" 
                           ClipboardCopyMode="ExcludeHeader"
                           Grid.Column="0" 
-                          RowHeight="20" 
-                          SelectionMode="Single"
-                          ColumnWidth="SizeToCells"
-                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}"/>
+                          RowHeight="25"
+                          
+                          GridLinesVisibility="None" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="true"
+                          RowStyle="{StaticResource rowStyle}" CellStyle="{StaticResource cellStyle}" 
+                          Background="{StaticResource DataGridBackground}" Foreground="Black"
+                                                    
+                          MaxColumnWidth="300"                          
+                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}" ColumnWidth="Auto" SelectionChanged="CompositionsDataGrid_SelectionChanged"/>
 
                 <GridSplitter Grid.Column="1"
                               Width="2"

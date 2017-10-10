@@ -12,9 +12,10 @@ namespace Mp3Tagger.Kernel.Processing
 {
     public class IOFeatureRunner
     {
-        public event Action<IIOFeature, ProcessingState> ProcessingStarted;
-        public event Action<IIOFeature, ProcessingState> ProcessingCompleted;
-        public event Action<IIOFeature, ProcessingState> ProcessingStateUpdated;
+        public event Action<ProcessingState> ProcessingStarted;
+        public event Action<ProcessingState> ProcessingCompleted;
+
+        public event Action<FeatureProcessReport> ProcessingStateUpdated;
 
         public ProcessingState CurrentState { get; private set; }
 
@@ -25,41 +26,42 @@ namespace Mp3Tagger.Kernel.Processing
 
         public async Task PerformProcessorByList(List<FileInfo> list, IIOFeature feature)
         {
-            OnProcessingStarted(feature, CurrentState = new ProcessingState()
+            OnProcessingStarted(CurrentState = new ProcessingState()
             {
                 CurrentFeature = feature,
                 IsBusy = true,
                 OperationsCount = list.Count,
-                OperationsPerformed = 0
+                PerformedOperations = 0
             });
 
             await feature.ApplyToList(list, OnProcessingStateUpdated);
 
-            OnProcessingCompleted(feature, CurrentState);
+            OnProcessingCompleted(CurrentState);
         }
 
-        protected virtual void OnProcessingStarted(IIOFeature processor, ProcessingState state)
+        protected virtual void OnProcessingStarted(ProcessingState state)
         {
             _elapsed = Stopwatch.StartNew();
             state.Elapsed = _elapsed.Elapsed;
             CurrentState = state;            
-            ProcessingStarted?.Invoke(processor, state);            
+            ProcessingStarted?.Invoke(state);            
         }
 
-        protected virtual void OnProcessingCompleted(IIOFeature processor, ProcessingState state)
+        protected virtual void OnProcessingCompleted(ProcessingState state)
         {
             state.Elapsed = _elapsed.Elapsed;
             state.IsBusy = false;
             CurrentState = state;
             _elapsed.Stop();
-            ProcessingCompleted?.Invoke(processor, state);                       
+            ProcessingCompleted?.Invoke(state);                       
         }
 
-        protected virtual void OnProcessingStateUpdated(IIOFeature processor, ProcessingState state)
+        protected virtual void OnProcessingStateUpdated(FeatureProcessReport report)
         {
-            state.Elapsed = _elapsed.Elapsed;
-            CurrentState = state;
-            ProcessingStateUpdated?.Invoke(processor, state);            
+            CurrentState.Elapsed = _elapsed.Elapsed;
+            CurrentState.PerformedOperations = report.PerformedOperations;
+            CurrentState.OperationsCount = report.TotalOperations;
+            ProcessingStateUpdated?.Invoke(report);            
         }
     }
 }

@@ -29,17 +29,13 @@ namespace Mp3Tagger.Kernel.Features.IO
             Settings = settings;
         }
 
-        public async Task ApplyToList(List<FileInfo> list, Action<IIOFeature, ProcessingState> progressUpdatedCallback)
+        public async Task ApplyToList(List<FileInfo> list, Action<FeatureProcessReport> progressUpdatedCallback)
         {
-            ProcessingState state = new ProcessingState
-            {
-                CurrentFeature = this,
-                IsBusy = true                
-            };
-            await Task.Run(() => WalkDirectoryTree(new DirectoryInfo(settings.Root), list.Add,progressUpdatedCallback, state));            
+            FeatureProcessReport processReport = new FeatureProcessReport();
+            await Task.Run(() => WalkDirectoryTree(new DirectoryInfo(settings.Root), list.Add,progressUpdatedCallback, processReport));            
         }
 
-        private void WalkDirectoryTree(DirectoryInfo root, Action<FileInfo> searched, Action<IIOFeature, ProcessingState> progressUpdatedCallback, ProcessingState state)
+        private void WalkDirectoryTree(DirectoryInfo root, Action<FileInfo> searched, Action<FeatureProcessReport> progressUpdatedCallback, FeatureProcessReport processReport)
         {
             System.IO.FileInfo[] files = null;
             try
@@ -70,12 +66,12 @@ namespace Mp3Tagger.Kernel.Features.IO
                 }
                 
                 var subDirs = root.GetDirectories();
-                state.OperationsCount += subDirs.Length;
+                processReport.TotalOperations += subDirs.Length;
                 foreach (DirectoryInfo dirInfo in subDirs)
                 {
-                    state.OperationsPerformed++;
-                    progressUpdatedCallback(this, state);
-                    WalkDirectoryTree(dirInfo, searched, progressUpdatedCallback,state);
+                    processReport.PerformedOperations++;
+                    progressUpdatedCallback(processReport);
+                    WalkDirectoryTree(dirInfo, searched, progressUpdatedCallback,processReport);
                 }
             }
         }
