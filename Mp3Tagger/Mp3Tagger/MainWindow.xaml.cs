@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Mp3Tagger.Annotations;
 using Mp3Tagger.Kernel;
 using Mp3Tagger.Kernel.Base.Attributes;
 using Mp3Tagger.Kernel.Base.Extensions;
@@ -33,7 +34,7 @@ namespace Mp3Tagger
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IView
+    public partial class MainWindow : Window, IView, INotifyPropertyChanged
     {
         private List<TextBox> editTabBoxes { get; set; }
         
@@ -41,6 +42,8 @@ namespace Mp3Tagger
         public DataGridModel DataGridModel { get; set; }
 
         public MainPresenter Presenter { get; set; }
+
+        public bool IsBitrateMarking { get; set; }
 
         public MainWindow()
         {
@@ -116,7 +119,7 @@ namespace Mp3Tagger
 
 
         private void open_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
                 dialog.Description = "Choose a scan folder";
@@ -139,7 +142,21 @@ namespace Mp3Tagger
         private void CompositionsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var a = CompositionsDataGrid.SelectedItem;
-        }    
+        }
+
+        private void ToggleBitrateMarkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsBitrateMarking = !IsBitrateMarking;
+            OnPropertyChanged(nameof(IsBitrateMarking));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
 
