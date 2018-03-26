@@ -20,11 +20,13 @@
             <Setter Property="BorderBrush" Value="#B0BEC5" />
             <Setter Property="Padding" Value="7,0,7,0" />
         </Style>
-
+        
         <Style x:Key="cellStyle" TargetType="DataGridCell">
+            <Style.Resources>
+                <converters:BitrateToBrushConverter x:Key="BitrateToBrushConverter" />
+            </Style.Resources>
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="1" />
-            <Setter Property="Background" Value="{StaticResource DataGridBackground}" />
             <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
@@ -41,6 +43,10 @@
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="true">
                                 <Setter TargetName="border" Property="Background" Value="#0288D1"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Column.DisplayIndex}" Value="3">
+                                <Setter TargetName="border" Property="Background" Value="{Binding Converter={StaticResource BitrateToBrushConverter}}"/>
+                                <Setter Property="Foreground" Value="White" />
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -61,5 +67,6 @@
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:CompostionsListToDataGridCompositionsListConverter x:Key="CompostionsListToDataGridCompositionsListConverter"/>
+        <converters:BitrateToBrushConverter x:Key="BitrateToBrushConverter"/>
     </Application.Resources>
 </Application>

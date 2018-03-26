@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Deployment.Application;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -16,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Mp3Tagger.Kernel;
 using Mp3Tagger.Kernel.Base.Attributes;
 using Mp3Tagger.Kernel.Base.Extensions;
@@ -136,7 +139,7 @@ namespace Mp3Tagger
         private void CompositionsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var a = CompositionsDataGrid.SelectedItem;
-        }
+        }    
     }
 }
 
