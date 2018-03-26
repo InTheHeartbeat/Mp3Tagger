@@ -86,7 +86,7 @@ namespace Mp3Tagger.Kernel
             CompositionsLoader compositionsLoader = (CompositionsLoader)Features.GetFeatureEntryByName(FeatureName.CompositionLoader).Feature;
             compositionsLoader.Initialize(new CompositionsLoaderSettings(),searchedFiles);
             await ProcessingFeatureRunner.PerformProcessorByList(Compositions, compositionsLoader);                                    
-        }
+        } 
 
         protected virtual void OnProcessingStateChanged(ProcessingState obj)
         {

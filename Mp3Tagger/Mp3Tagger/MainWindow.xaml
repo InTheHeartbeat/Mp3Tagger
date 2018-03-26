@@ -64,6 +64,7 @@
                     <Button>3</Button>
                 </ToolBar>
             </ToolBarTray>
+            <TextBox x:Name="tb" Height="23" TextWrapping="Wrap" Text="TextBox" TextChanged="TextBox_TextChanged"/>
         </StackPanel>
         <Grid>
             <Grid.RowDefinitions>
@@ -86,12 +87,13 @@
                           RowHeight="25"
                           
                           GridLinesVisibility="None" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="true"
-                          RowStyle="{StaticResource rowStyle}" CellStyle="{StaticResource cellStyle}" 
+                          RowStyle="{StaticResource rowStyle}" 
+                          CellStyle="{StaticResource cellStyle}" 
                           Background="{StaticResource DataGridBackground}" Foreground="Black"
-                                                    
+                            AutoGenerateColumns="True"                                                    
                           MaxColumnWidth="300"                          
-                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}" ColumnWidth="Auto" SelectionChanged="CompositionsDataGrid_SelectionChanged"/>
-
+                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}" ColumnWidth="Auto" SelectionChanged="CompositionsDataGrid_SelectionChanged" AutoGeneratingColumn="CompositionsDataGrid_AutoGeneratingColumn"/>
+        
                 <GridSplitter Grid.Column="1"
                               Width="2"
                               HorizontalAlignment="Stretch"
@@ -147,6 +149,7 @@
                     </StackPanel>
                 </StatusBarItem>
             </StatusBar>
+            <userControls:ImageButton HorizontalAlignment="Left" Height="100" Margin="456,76,0,0" VerticalAlignment="Top" Width="100"/>
         </Grid>
     </DockPanel>
 </Window>
