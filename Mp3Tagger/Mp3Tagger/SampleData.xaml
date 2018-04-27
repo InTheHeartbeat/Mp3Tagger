@@ -1,0 +1,6 @@
+﻿<local:DataGridRows xmlns:local="clr-namespace:Mp3Tagger">
+    <local:DataGridRow Column1="AAAA"/>
+    <local:DataGridRow Column1="AAAA"/>
+    <local:DataGridRow Column1="AAAA"/>
+    <local:DataGridRow Column1="AAAA"/>
+</local:DataGridRows>

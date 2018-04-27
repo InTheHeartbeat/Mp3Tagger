@@ -16,6 +16,7 @@ namespace Mp3Tagger.Kernel.Features
 {
     public class PatternRemover : IProcessingFeature
     {
+        public string Name { get; set; }
         public IFeatureSettings Settings { get; private set; }
 
         private PatternRemoverSettings settings => (PatternRemoverSettings) Settings;
@@ -23,6 +24,7 @@ namespace Mp3Tagger.Kernel.Features
         public PatternRemover()
         {            
             Initialize(new PatternRemoverSettings());
+            Name = "Pattern remover";
         }
 
         public void Initialize(IFeatureSettings settings)

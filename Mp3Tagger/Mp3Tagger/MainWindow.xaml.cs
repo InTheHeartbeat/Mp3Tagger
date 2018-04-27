@@ -7,13 +7,16 @@ using System.Deployment.Application;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -28,6 +31,11 @@ using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Presenters;
 using Mp3Tagger.Models;
+using Binding = System.Windows.Data.Binding;
+using Cursors = System.Windows.Input.Cursors;
+using MenuItem = System.Windows.Controls.MenuItem;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace Mp3Tagger
 {
@@ -56,9 +64,17 @@ namespace Mp3Tagger
             DataGridModel = new DataGridModel();            
 
             StateModel = new ProcessingStateViewModel();            
-            GenerateEditTabPage();            
+            //GenerateEditTabPage();            
             Presenter.Kernel.ProcessingStateChanged += SetState;
-            Presenter.FeatureCompleted += state => DataGridModel.Compositions = Presenter.CurrentCompositions;              
+            Presenter.FeatureCompleted += state => DataGridModel.Compositions = Presenter.CurrentCompositions;
+            Loaded += new RoutedEventHandler(MainWindow_Loaded);
+
+            
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((MenuItem) this.Template.FindName("menuOpen", this)).Click += this.open_Click;
         }
 
         private void SetState(ProcessingState state)
@@ -146,7 +162,7 @@ namespace Mp3Tagger
 
         private void ToggleBitrateMarkingButton_Click(object sender, RoutedEventArgs e)
         {
-            IsBitrateMarking = !IsBitrateMarking;
+            IsBitrateMarking = !IsBitrateMarking; 
             OnPropertyChanged(nameof(IsBitrateMarking));
         }
 
@@ -156,6 +172,11 @@ namespace Mp3Tagger
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ToggleEmptyCellsMarkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

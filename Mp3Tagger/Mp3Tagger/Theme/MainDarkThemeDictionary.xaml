@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ControlStyles/TitleBarStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/ToolbarStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/TabControlStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/TabItemStyle.xaml"/>
+        
+        <ResourceDictionary Source="ControlStyles/DataGrid/DataGridStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/DataGrid/DataGridColumnHeaderStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/DataGrid/DataGridColumnHeadersPresenterStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/DataGrid/ColumnHeaderGripperStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/DataGrid/DataGridCellStyle.xaml"/>
+        <ResourceDictionary Source="ControlStyles/DataGrid/DataGridRowStyle.xaml"/>
+        
+        <ResourceDictionary Source="ControlStyles/Scrollbar/DarkScrollBarStyle.xaml"/>
+        
+        
+    </ResourceDictionary.MergedDictionaries>    
+</ResourceDictionary>

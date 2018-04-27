@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -14,10 +16,15 @@ namespace Mp3Tagger.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (String.IsNullOrWhiteSpace(value?.ToString()))
+
+            foreach (PropertyInfo propertyInfo in value.GetType().GetProperties())
             {
-                return Brushes.BlueViolet;
+                if (String.IsNullOrWhiteSpace(propertyInfo.GetValue(value).ToString()))
+                {
+                    return Brushes.BlueViolet;
+                }
             }
+
             return Application.Current.Resources["DataGridBackground"];
         }
 

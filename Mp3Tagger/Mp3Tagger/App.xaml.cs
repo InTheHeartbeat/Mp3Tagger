@@ -13,5 +13,9 @@ namespace Mp3Tagger
     /// </summary>
     public partial class App : Application
     {
+        private void EventSetter_OnHandler(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

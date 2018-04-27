@@ -5,36 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mp3Tagger.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="20">
+             d:DesignHeight="24" d:DesignWidth="24">
     <Button Name="button" Click="button_Click">
         <Button.Template>
             <ControlTemplate TargetType="{x:Type Button}">
                 <Border Name="buttonBorder">
                     <Border.Effect>
-                        <DropShadowEffect Opacity="0.0" />
+                        <DropShadowEffect Color="DarkGray" Opacity="0.0" />
                     </Border.Effect>
                     <Border.Child>
                         <Image Name="img"           
                                Source="{Binding Path=NormalImage,ElementName=Control}"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Left"
-                               Stretch="Uniform" 
-                               Margin="2"/>
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
                     </Border.Child>
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="true">
                         <Setter TargetName="buttonBorder" Property="Effect">
                             <Setter.Value>
-                                <DropShadowEffect Opacity="0.4" BlurRadius="2" ShadowDepth="2"  />
+                                <DropShadowEffect Color="#80ab75" Opacity="0.8" BlurRadius="2" ShadowDepth="3"  />
                             </Setter.Value>
                         </Setter>
                     </Trigger>
                     <Trigger Property="IsMouseCaptured" Value="true">
                         <Setter TargetName="buttonBorder" Property="Effect">
                             <Setter.Value>
-                                <DropShadowEffect Opacity="0.4" Direction="135"  
-                                                  ShadowDepth="2" BlurRadius="2" />
+                                <DropShadowEffect Color="#80ab75" Opacity="0.8" Direction="135"  
+                                                  ShadowDepth="3" BlurRadius="3" />
                             </Setter.Value>
                         </Setter>
                     </Trigger>

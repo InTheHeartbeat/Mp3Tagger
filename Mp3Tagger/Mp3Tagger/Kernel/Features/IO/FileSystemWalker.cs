@@ -15,6 +15,7 @@ namespace Mp3Tagger.Kernel.Features.IO
     {                
         private readonly FileSystemWalkerSettings fileSystemWalkerSettings;
 
+        public string Name { get; set; }
         public IFeatureSettings Settings { get; private set; }
 
         private FileSystemWalkerSettings settings => (FileSystemWalkerSettings) Settings;        
@@ -22,6 +23,7 @@ namespace Mp3Tagger.Kernel.Features.IO
         public FileSystemWalker(FileSystemWalkerSettings settings)
         {            
             fileSystemWalkerSettings = settings;
+            Name = "File system walker";
         }
 
         public void Initialize(IFeatureSettings settings)

@@ -22,8 +22,8 @@ namespace Mp3Tagger.UserControls
     {
         public ImageSource DisabledImage
         {
-            get { return (ImageSource) GetValue(DisabledImageProperty); }
-            set { SetValue(DisabledImageProperty, value); }
+            get => (ImageSource) GetValue(DisabledImageProperty);
+            set => SetValue(DisabledImageProperty, value);
         }
 
         public static readonly DependencyProperty DisabledImageProperty =

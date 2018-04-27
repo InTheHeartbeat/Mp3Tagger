@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="ScrollBarLineButton"
+       TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="Focusable"
+          Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="Border"
+                Margin="1"
+                CornerRadius="0"
+                BorderThickness="1">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                        </Border.Background>
+
+                        <Path x:Name="Arrow"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Path.Fill>
+                                <SolidColorBrush Color="{StaticResource WhiteColor}"/>
+                            </Path.Fill>
+                        </Path>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard >
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"                                                          
+                                                        Duration="0:0:0.1" 
+                                                        To="{StaticResource MiddleWhiteColor}"
+                                                        Storyboard.TargetName="Arrow"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard >
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"                                                          
+                                                        Duration="0:0:0.1" 
+                                                        To="{StaticResource LightenLightBlueColor}"
+                                                        Storyboard.TargetName="Arrow"/>
+                                    </Storyboard>
+                                </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                    <Storyboard >
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"                                                          
+                                                        Duration="0:0:0.1" 
+                                                        To="{StaticResource DarkenLightBlueColor}"
+                                                        Storyboard.TargetName="Arrow"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard >
+                                        <ColorAnimation Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"                                                          
+                                                        Duration="0:0:0.1" 
+                                                        To="{StaticResource ThumbColor}"
+                                                        Storyboard.TargetName="Arrow"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

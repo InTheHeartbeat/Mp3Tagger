@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Windows.Shell, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Windows.Shell.3.0.1.0\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -62,6 +65,8 @@
     </ApplicationDefinition>
     <Compile Include="Converters\BitrateToBrushConverter.cs" />
     <Compile Include="Converters\CompostionsListToDataGridCompositionsListConverter.cs" />
+    <Compile Include="Converters\EmptyCellToBrushConverter.cs" />
+    <Compile Include="DataGridRow.cs" />
     <Compile Include="Kernel\Base\Attributes\CustomFieldHeightRequired.cs" />
     <Compile Include="Kernel\FeatureKitEntry.cs" />
     <Compile Include="Kernel\FeaturesKit.cs" />
@@ -110,6 +115,78 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SampleData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\ColumnHeaderGripperStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridCellStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridColumnHeadersPresenterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridColumnHeaderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridRowHeaderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridRowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\DataGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\DataGrid\RowHeaderGripperStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\Scrollbar\DarkScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\Scrollbar\ScrollBarLineButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\Scrollbar\ScrollBarPageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\Scrollbar\ScrollBarThumb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\TabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\TabItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\TitleBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ControlStyles\ToolbarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\MainDarkThemeDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ImageButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,52 +214,34 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Fonts\Raleway-Black-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Black.ttf" />
-    <Resource Include="Fonts\Raleway-Bold-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Bold.ttf" />
-    <Resource Include="Fonts\Raleway-ExtraBold-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-ExtraBold.ttf" />
-    <Resource Include="Fonts\Raleway-ExtraLight-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-ExtraLight.ttf" />
-    <Resource Include="Fonts\Raleway-Light-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Light.ttf" />
-    <Resource Include="Fonts\Raleway-Medium-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Medium.ttf" />
-    <Resource Include="Fonts\Raleway-Regular-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Regular.ttf" />
-    <Resource Include="Fonts\Raleway-SemiBold-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-SemiBold.ttf" />
-    <Resource Include="Fonts\Raleway-Thin-Italic.ttf" />
-    <Resource Include="Fonts\Raleway-Thin.ttf" />
-    <Resource Include="Fonts\ClearSans-Bold.ttf" />
-    <Resource Include="Fonts\ClearSans-BoldItalic.ttf" />
-    <Resource Include="Fonts\ClearSans-Italic.ttf" />
-    <Resource Include="Fonts\ClearSans-Light.ttf" />
-    <Resource Include="Fonts\ClearSans-Medium.ttf" />
-    <Resource Include="Fonts\ClearSans-MediumItalic.ttf" />
-    <Resource Include="Fonts\ClearSans-Regular.ttf" />
-    <Resource Include="Fonts\ClearSans-Thin.ttf" />
+    <Resource Include="Fonts\JuliusSansOne-Regular.ttf" />
+    <Resource Include="Fonts\PragatiNarrow-Regular.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\open-computer-folder.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Images\Backrounds\window-titlebar-bg.jpg" />
     <Resource Include="Images\Icons\ic-bitrate.png" />
+    <Resource Include="Images\Icons\ic-fix.png" />
+    <Resource Include="Images\Icons\ic-open-folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Icons\magic-wand-auto-fix-button.png" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ic-visibility-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ic-off-visibility-bitrate-button.png" />
+    <Resource Include="Images\Icons\ic-off-visibility-empty-cells-button.png" />
+    <Resource Include="Images\Icons\ic-visibility-bitrate-button.png" />
+    <Resource Include="Images\Icons\ic-visibility-empty-cells-button.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
