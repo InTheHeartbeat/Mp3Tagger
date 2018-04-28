@@ -67,6 +67,7 @@
     <Compile Include="Converters\CompostionsListToDataGridCompositionsListConverter.cs" />
     <Compile Include="Converters\EmptyCellToBrushConverter.cs" />
     <Compile Include="DataGridRow.cs" />
+    <Compile Include="Helpers\DTGHelper.cs" />
     <Compile Include="Kernel\Base\Attributes\CustomFieldHeightRequired.cs" />
     <Compile Include="Kernel\FeatureKitEntry.cs" />
     <Compile Include="Kernel\FeaturesKit.cs" />

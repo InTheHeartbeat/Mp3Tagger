@@ -71,6 +71,11 @@ namespace Mp3Tagger.Models
             Duration = baseComposition.Duration.Minutes + ":" + baseComposition.Duration.Seconds;
         }
 
+        public DataGridComposition()
+        {
+            
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -46,7 +46,7 @@
                         Height="17"
                         Margin="2"
                         NormalImage="/Images/Icons/ic-visibility-bitrate-button.png"
-                       Click="ToggleBitrateMarkingButton_Click"
+                       Click="ToggleBitrateMarkingButton_Click" Loaded="ToggleBitrateMarkingButton_Loaded"
                     />
                     <userControls:ImageButton    
                         x:Name="ToggleEmptyMarkingButton" 

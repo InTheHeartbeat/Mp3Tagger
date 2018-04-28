@@ -5,15 +5,7 @@
     <converters:BitrateToBrushConverter x:Key="BitrateToBrushConverter" />
     <converters:EmptyCellToBrushConverter x:Key="EmptyCellToBrushConverter" />
     <Style x:Key="DarkDataGridCellStyle" TargetType="{x:Type DataGridCell}">
-        <Style.Resources>
-            <Style x:Key="asd" TargetType="{x:Type TextBlock}">
-                <Style.Triggers>
-                    <Trigger Property="Text" Value="">
-                        <Setter Property="Background" Value="LightGreen"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Style.Resources>
+        
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"></Setter>
@@ -76,7 +68,7 @@
                                 <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Column.DisplayIndex}" Value="3"/>
                                 <Condition Binding="{Binding Path=DataContext.IsBitrateMarking, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" Value="true"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{Binding Converter={StaticResource BitrateToBrushConverter}}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding Converter={StaticResource BitrateToBrushConverter}}"/>
                             <Setter Property="Foreground" Value="White" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
@@ -88,8 +80,8 @@
                                 <BeginStoryboard>
                                     <Storyboard >
                                         <ColorAnimation Storyboard.TargetName="border"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"                                                          
-                                                        Duration="0:0:0.8" 
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"                                                          
+                                                        Duration="0:0:0.1" 
                                                         To="#8a2be2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -98,9 +90,9 @@
                                 <BeginStoryboard>
                                     <Storyboard >
                                         <ColorAnimation Storyboard.TargetName="border"
-                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"                                                          
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"                                                          
                                                         Duration="0:0:0.2" 
-                                                        To="{StaticResource DarkenBackgroundColor}"/>
+                                                        To="{StaticResource AccentColor}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiDataTrigger.ExitActions>

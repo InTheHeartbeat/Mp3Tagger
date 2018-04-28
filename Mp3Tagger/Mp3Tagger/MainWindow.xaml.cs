@@ -18,11 +18,14 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Mp3Tagger.Annotations;
+using Mp3Tagger.Converters;
+using Mp3Tagger.Helpers;
 using Mp3Tagger.Kernel;
 using Mp3Tagger.Kernel.Base.Attributes;
 using Mp3Tagger.Kernel.Base.Extensions;
@@ -162,8 +165,8 @@ namespace Mp3Tagger
 
         private void ToggleBitrateMarkingButton_Click(object sender, RoutedEventArgs e)
         {
-            IsBitrateMarking = !IsBitrateMarking; 
-            
+            IsBitrateMarking = !IsBitrateMarking;      
+
             OnPropertyChanged(nameof(IsBitrateMarking));
         }
         private void ToggleEmptyMarkingButton_Click(object sender, RoutedEventArgs e)
@@ -179,8 +182,10 @@ namespace Mp3Tagger
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void ToggleBitrateMarkingButton_Loaded(object sender, RoutedEventArgs e)
+        {
 
-       
+        }
     }
 }
 
