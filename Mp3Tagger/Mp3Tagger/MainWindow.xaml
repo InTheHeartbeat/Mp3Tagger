@@ -53,8 +53,8 @@
                         Width="17"
                         Height="17"
                         Margin="2"
-                        NormalImage="/Images/Icons/ic-visibility-empty-cells-button.png"
-                        Click="ToggleBitrateMarkingButton_Click"
+                        NormalImage="/Images/Icons/ic-visibility-empty-cells-button.png" Click="ToggleEmptyMarkingButton_Click"
+                        
                     />
                 </ToolBar>
                 <ToolBar VerticalAlignment="Top"

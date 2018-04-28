@@ -52,7 +52,7 @@ namespace Mp3Tagger
         public MainPresenter Presenter { get; set; }
 
         public bool IsBitrateMarking { get; set; }
-
+        public bool IsEmptyMarking { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -157,15 +157,20 @@ namespace Mp3Tagger
 
         private void CompositionsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var a = CompositionsDataGrid.SelectedItem;
+            
         }
 
         private void ToggleBitrateMarkingButton_Click(object sender, RoutedEventArgs e)
         {
             IsBitrateMarking = !IsBitrateMarking; 
+            
             OnPropertyChanged(nameof(IsBitrateMarking));
         }
-
+        private void ToggleEmptyMarkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsEmptyMarking = !IsEmptyMarking;
+            OnPropertyChanged(nameof(IsEmptyMarking));
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -174,10 +179,8 @@ namespace Mp3Tagger
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ToggleEmptyCellsMarkingButton_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
+       
     }
 }
 

@@ -16,13 +16,9 @@ namespace Mp3Tagger.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            foreach (PropertyInfo propertyInfo in value.GetType().GetProperties())
+            if (value == null || ((ContentPresenter)value).Content == null || String.IsNullOrWhiteSpace(((TextBlock) ((ContentPresenter) value)?.Content)?.Text))
             {
-                if (String.IsNullOrWhiteSpace(propertyInfo.GetValue(value).ToString()))
-                {
-                    return Brushes.BlueViolet;
-                }
+                return Brushes.BlueViolet;
             }
 
             return Application.Current.Resources["DataGridBackground"];
