@@ -7,7 +7,7 @@ using Mp3Tagger.Kernel.Interfaces;
 
 namespace Mp3Tagger.Kernel.Settings.Features
 {
-    public class EncodingFixerSettings : IFeatureSettings
+    public class EncodingFixerSettings : ISettings
     {
         public void InitializeByDefault()
         {

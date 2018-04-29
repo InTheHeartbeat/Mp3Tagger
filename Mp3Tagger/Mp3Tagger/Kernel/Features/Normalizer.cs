@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -9,9 +8,8 @@ using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Features.Helpers;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
-using Mp3Tagger.Kernel.Processing;
-using Mp3Tagger.Kernel.Settings;
-using Mp3Tagger.Models;
+using Mp3Tagger.Kernel.Settings.Features;
+
 
 namespace Mp3Tagger.Kernel.Features
 {
@@ -62,7 +60,7 @@ namespace Mp3Tagger.Kernel.Features
             {
                 composition.Title = composition.Title.Trim();
                 composition.Album = composition.Album.Trim();
-                composition.Performer = composition.Performer.Trim();
+                composition.Artist = composition.Artist.Trim();
             }
             if (settings.ChangeCase)
             {

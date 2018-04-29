@@ -10,6 +10,7 @@ using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Processing;
 using Mp3Tagger.Kernel.Settings;
+using Mp3Tagger.Kernel.Settings.Features;
 using Mp3Tagger.Models;
 
 namespace Mp3Tagger.Kernel.Features

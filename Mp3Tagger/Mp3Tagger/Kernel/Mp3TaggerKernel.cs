@@ -14,6 +14,7 @@ using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Processing;
 using Mp3Tagger.Kernel.Settings;
+using Mp3Tagger.Kernel.Settings.Features;
 
 namespace Mp3Tagger.Kernel
 {
@@ -77,7 +78,7 @@ namespace Mp3Tagger.Kernel
             Compositions = new ObservableCollection<Composition>();
 
             List<FileInfo> searchedFiles = new List<FileInfo>();
-
+            
             Features.SetFeatureSettings(FeatureName.FileSystemWalker, new FileSystemWalkerSettings() {Root = path});
 
             await IoFeatureRunner.PerformProcessorByList(searchedFiles,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,33 +15,32 @@ namespace Mp3Tagger.Kernel.Settings
     {
         public SettingsKit CurrentSettings { get; set; }
 
+        private readonly SettingsRepository _repository;
+
         public SettingsProvider()
         {
             CurrentSettings = new SettingsKit();
-        }
+            _repository = new SettingsRepository();
 
-        public T GetSettings<T>()
-        {
-            return (T) CurrentSettings.GetSettings<T>();            
+            Initialize();
         }
-
-        public IFeatureSettings GetSettingsByFeatureName(FeatureName name)
+      
+        private void Initialize()
         {
-            switch (name)
+            try
             {
-                case FeatureName.EncodingFixer:
-                    return CurrentSettings.GetSettings<EncodingFixerSettings>();                   
-                case FeatureName.PatternRemover:
-                    return CurrentSettings.GetSettings<PatternRemoverSettings>();                    
-                case FeatureName.Normalizer:
-                    return CurrentSettings.GetSettings<NormalizerSettings>();                    
-                case FeatureName.FileSystemWalker:
-                    return CurrentSettings.GetSettings<FileSystemWalkerSettings>();                    
-                case FeatureName.CompositionLoader:
-                    return CurrentSettings.GetSettings<CompositionsLoaderSettings>();                    
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(name), name, null);
+                CurrentSettings = _repository.LoadSettings();
             }
+            catch (IOException)
+            {
+                CurrentSettings.InitializeByDefault();
+                _repository.SaveSettings(CurrentSettings);
+            }
+        }
+
+        public void SaveSettings()
+        {
+            _repository.SaveSettings(CurrentSettings);
         }
     }
 }

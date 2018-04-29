@@ -9,7 +9,7 @@ using Mp3Tagger.Kernel.Models;
 namespace Mp3Tagger.Kernel.Settings.Features
 {
     [Serializable]
-    public class PatternRemoverSettings : IFeatureSettings
+    public class PatternRemoverSettings : ISettings
     {
         public List<string> PatternList { get; set; }
         public List<string> BracketsList { get; set; }

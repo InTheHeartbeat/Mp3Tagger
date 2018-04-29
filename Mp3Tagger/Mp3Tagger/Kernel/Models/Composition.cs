@@ -8,7 +8,7 @@ namespace Mp3Tagger.Kernel.Models
     public class Composition
     {
         public string Title { get; set; }
-        public string Performer { get; set; }
+        public string Artist { get; set; }
         public string Album { get; set; }
         public int Bitrate { get; set; }
         public TimeSpan Duration { get; set; }
@@ -68,7 +68,7 @@ namespace Mp3Tagger.Kernel.Models
             Genres = audioFile.Tag.Genres;
             Grouping = audioFile.Tag.Grouping ?? String.Empty;
             Lyrics = audioFile.Tag.Lyrics ?? String.Empty;
-            Performer = audioFile.Tag.JoinedPerformers ?? String.Empty;
+            Artist = audioFile.Tag.JoinedPerformers ?? String.Empty;
             Pictures = audioFile.Tag.Pictures;
             Track = (int)audioFile.Tag.Track;
             TrackCount = (int)audioFile.Tag.TrackCount;

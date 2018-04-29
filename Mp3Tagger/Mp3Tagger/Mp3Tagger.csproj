@@ -69,29 +69,41 @@
     <Compile Include="DataGridRow.cs" />
     <Compile Include="Helpers\DTGHelper.cs" />
     <Compile Include="Kernel\Base\Attributes\CustomFieldHeightRequired.cs" />
+    <Compile Include="Kernel\Enums\CompositionField.cs" />
     <Compile Include="Kernel\FeatureKitEntry.cs" />
     <Compile Include="Kernel\FeaturesKit.cs" />
     <Compile Include="Kernel\Features\IO\FileSystemWalker.cs" />
     <Compile Include="Kernel\History\HistoryEntry.cs" />
     <Compile Include="Kernel\History\HistoryKeeper.cs" />
-    <Compile Include="Kernel\Interfaces\IFeatureSettings.cs" />
     <Compile Include="Kernel\Interfaces\IIOFeature.cs" />
     <Compile Include="Kernel\Interfaces\IProcessingFeature.cs" />
+    <Compile Include="Kernel\Interfaces\Settings\IFeatureSettings.cs" />
+    <Compile Include="Kernel\Interfaces\Settings\ISettings.cs" />
     <Compile Include="Kernel\Models\FeatureProcessReport.cs" />
     <Compile Include="Kernel\Mp3TaggerKernel.cs" />
     <Compile Include="Kernel\ProcessingState.cs" />
     <Compile Include="Kernel\Processing\IOFeatureRunner.cs" />
     <Compile Include="Kernel\Processing\ProcessingFeatureRunner.cs" />
-    <Compile Include="Kernel\Settings\CompositionsLoaderSettings.cs" />
-    <Compile Include="Kernel\Settings\FileSystemWalkerSettings.cs" />
-    <Compile Include="Kernel\Settings\NormalizerSettings.cs" />
-    <Compile Include="Kernel\Settings\PatternRemoverSettings.cs" />
+    <Compile Include="Kernel\Settings\Display\DisplaySettings.cs" />
+    <Compile Include="Kernel\Settings\FeaturesSettingsList.cs" />
+    <Compile Include="Kernel\Settings\Features\CompositionsLoaderSettings.cs" />
+    <Compile Include="Kernel\Settings\Features\EncodingFixerSettings.cs" />
+    <Compile Include="Kernel\Settings\Features\FileSystemWalkerSettings.cs" />
+    <Compile Include="Kernel\Settings\Features\NormalizerSettings.cs" />
+    <Compile Include="Kernel\Settings\Features\PatternRemoverSettings.cs" />
+    <Compile Include="Kernel\Settings\SettingsController.cs" />
+    <Compile Include="Kernel\Settings\SettingsKit.cs" />
+    <Compile Include="Kernel\Settings\SettingsProvider.cs" />
+    <Compile Include="Kernel\Settings\SettingsRepository.cs" />
     <Compile Include="Models\DataGridModel.cs" />
     <Compile Include="Models\HistoryKeeperViewModel.cs" />
     <Compile Include="Models\ProcessingStateViewModel.cs" />
     <Compile Include="Properties\Annotations7.cs" />
     <Compile Include="UserControls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Settings\GlobalSettingsWindow.xaml.cs">
+      <DependentUpon>GlobalSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Settings\GlobalSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

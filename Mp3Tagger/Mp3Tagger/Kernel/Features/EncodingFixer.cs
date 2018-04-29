@@ -45,7 +45,7 @@ namespace Mp3Tagger.Kernel.Features
         public void ApplyToComposition(Composition composition)
         {
             composition.Album = ToUtf8(composition.Album);
-            composition.Performer = ToUtf8(composition.Performer);
+            composition.Artist = ToUtf8(composition.Artist);
             composition.Title = ToUtf8(composition.Title);
             composition.Comment = ToUtf8(composition.Comment);
             composition.Lyrics = ToUtf8(composition.Lyrics);

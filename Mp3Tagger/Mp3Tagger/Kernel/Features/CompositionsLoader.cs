@@ -16,7 +16,7 @@ namespace Mp3Tagger.Kernel.Features
         public string Name { get; set; }        
         public List<KeyValuePair<FileInfo, Exception>> BadFiles { get; set; }
 
-        public IFeatureSettings Settings { get; private set; }        
+        public ISettings Settings { get; private set; }        
 
         public int FilesCount
         {
@@ -37,12 +37,12 @@ namespace Mp3Tagger.Kernel.Features
             BadFiles = new List<KeyValuePair<FileInfo, Exception>>();
         }
 
-        public void Initialize(IFeatureSettings settings)
+        public void Initialize(ISettings settings)
         {
             Settings = settings;
         }
 
-        public void Initialize(IFeatureSettings settings,List<FileInfo> files)
+        public void Initialize(ISettings settings,List<FileInfo> files)
         {
             this.files = files;
         }        

@@ -8,6 +8,7 @@ using Mp3Tagger.Kernel.Features;
 using Mp3Tagger.Kernel.Features.IO;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Settings;
+using Mp3Tagger.Kernel.Settings.Features;
 
 namespace Mp3Tagger.Kernel
 {

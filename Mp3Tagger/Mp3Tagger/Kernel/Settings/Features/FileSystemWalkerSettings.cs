@@ -8,7 +8,7 @@ using Mp3Tagger.Kernel.Interfaces;
 
 namespace Mp3Tagger.Kernel.Settings.Features
 {
-    public class FileSystemWalkerSettings : IFeatureSettings
+    public class FileSystemWalkerSettings : ISettings
     {        
         public string Root { get; set; }
         public long MinFileBytes { get; set; }

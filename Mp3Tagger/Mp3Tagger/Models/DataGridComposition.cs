@@ -16,7 +16,7 @@ namespace Mp3Tagger.Models
     public class DataGridComposition : INotifyPropertyChanged
     {
         private string title;
-        private string performer;
+        private string _artist;
 
         public string Title
         {
@@ -24,10 +24,10 @@ namespace Mp3Tagger.Models
             set { title = value; OnPropertyChanged("Title");}
         }
 
-        public string Performer
+        public string Artist
         {
-            get { return performer; }
-            set { performer = value; OnPropertyChanged("Performer"); }
+            get { return _artist; }
+            set { _artist = value; OnPropertyChanged("Artist"); }
         }
 
         public string Album { get; set; }
@@ -63,7 +63,7 @@ namespace Mp3Tagger.Models
             DiscCount = (int)baseComposition.DiscCount;
             Genres = string.Join(", ", baseComposition.Genres);
             Grouping = baseComposition.Grouping ?? String.Empty;            
-            Performer = string.Join(", ",baseComposition.Performer ?? String.Empty);                     
+            Artist = string.Join(", ",baseComposition.Artist ?? String.Empty);                     
             Track = (int)baseComposition.Track;
             TrackCount = (int)baseComposition.TrackCount;
             Year = (int)baseComposition.Year;

@@ -8,7 +8,7 @@ namespace Mp3Tagger.Kernel.Interfaces
     public interface IFeature
     {
         string Name { get; set; }
-        IFeatureSettings Settings { get;}
-        void Initialize(IFeatureSettings settings);                        
+        ISettings Settings { get;}
+        void Initialize(ISettings settings);                        
     }
 }

@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
-using Mp3Tagger.Kernel.Processing;
-using Mp3Tagger.Kernel.Settings;
+using Mp3Tagger.Kernel.Settings.Features;
 
 namespace Mp3Tagger.Kernel.Features.IO
 {
