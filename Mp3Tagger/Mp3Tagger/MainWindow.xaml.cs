@@ -71,7 +71,6 @@ namespace Mp3Tagger
             Presenter.Kernel.ProcessingStateChanged += SetState;
             Presenter.FeatureCompleted += state => DataGridModel.Compositions = Presenter.CurrentCompositions;
             Loaded += new RoutedEventHandler(MainWindow_Loaded);
-
             
         }
 

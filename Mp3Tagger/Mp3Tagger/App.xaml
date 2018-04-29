@@ -26,6 +26,8 @@
         <Color x:Key="LightenLightBlueColor">#0C9CF9</Color>
         <Color x:Key="DarkenLightBlueColor">#005287</Color>
 
+        <Color x:Key="LightOrangeColor">#CA5100</Color>
+        
         <Color x:Key="MiddleWhiteColor">#63767E</Color>
         
         <Color x:Key="ThumbColor">#465C64</Color>
@@ -153,7 +155,7 @@
                                 </MenuItem>
                             </Menu>
 
-                            <Border x:Name="Content" Grid.Row="3">
+                            <Border x:Name="Content" Grid.Row="3" Margin="0">
                                 <Border.Background>
                                     <SolidColorBrush Color="{StaticResource DarkenBackgroundColor}"/>
                                 </Border.Background>

@@ -168,7 +168,46 @@
                        HorizontalAlignment="Stretch" 
                        VerticalAlignment="Bottom"
                        Background="#007ACC"
-                       Foreground="{StaticResource TextBrush}">
+                       Foreground="{StaticResource TextBrush}"
+                       >
+                <StatusBar.Style>
+                    <Style TargetType="StatusBar">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=StateModel.IsBusy}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <ColorAnimation 
+                                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"                                                          
+                                                            Duration="0:0:0.8"
+                                                            RepeatBehavior="Forever"
+                                                            AutoReverse="True"
+                                                            To="{StaticResource LightOrangeColor}">
+                                            <ColorAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                            </ColorAnimation.EasingFunction>    
+                                            </ColorAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <ColorAnimation
+                                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"                                                          
+                                                            Duration="0:0:0.8" 
+                                                            To="{StaticResource LightBlueColor}">
+                                                <ColorAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseIn"/>
+                                                </ColorAnimation.EasingFunction>
+                                            </ColorAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StatusBar.Style>
                 <StatusBarItem Content="{Binding Path=StateModel.CurrentFeature.Name}"></StatusBarItem>
                 <StatusBarItem Margin="200,0,0,0" Content="Selected:"></StatusBarItem>
                 <StatusBarItem Margin="0,0,0,0" Content="{Binding ElementName=CompositionsDataGrid, Path=SelectedIndex}"></StatusBarItem>
