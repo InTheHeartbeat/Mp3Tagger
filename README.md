@@ -1,5 +1,5 @@
 # Mp3Tagger
-This application provide ability to organize your music in sense id3 tags and file system structuration. Which, incidentally, is extremely useful if you use the service for scrobbling music, as the accuracy of statistics with the correct tags increases at times
+This application provides the ability to organize your music in sense of id3 tags and the file system structurization. Which, incidentally, is extremely useful if you use the service for scrobbling music, as the accuracy of the statistics with the correct tags increased at times.
 
 Mp3Tagger features:
 1. Переименование всех файлов по маске “Исполнитель с большой буквы все слова - Название с большой буквы первое слово”;
