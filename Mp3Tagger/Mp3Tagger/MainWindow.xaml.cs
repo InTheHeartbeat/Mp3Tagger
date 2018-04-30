@@ -185,6 +185,18 @@ namespace Mp3Tagger
         {
 
         }
+
+        private void CompositionsDataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            e.Cancel = !Presenter.Kernel
+                        .SettingsProvider
+                        .CurrentSettings
+                        .Display
+                        .CompositionsGrid
+                        .CompositionsGridColumnVisibility
+                        .FirstOrDefault(field => e.PropertyName == field.Field.ToString()).Visible;
+
+        }
     }
 }
 

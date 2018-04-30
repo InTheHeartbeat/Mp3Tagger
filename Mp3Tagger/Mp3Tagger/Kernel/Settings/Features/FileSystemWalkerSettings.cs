@@ -10,11 +10,11 @@ namespace Mp3Tagger.Kernel.Settings.Features
 {
     public class FileSystemWalkerSettings : ISettings
     {        
-        public string Root { get; set; }
+        public string[] Roots { get; set; }
         public long MinFileBytes { get; set; }
         public void InitializeByDefault()
         {
-            MinFileBytes = 0;
+            MinFileBytes = -1;
         }
     }
 }

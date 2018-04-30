@@ -17,7 +17,7 @@ namespace Mp3Tagger.Kernel.Features
     {
         public string Name { get; set; }
 
-        public IFeatureSettings Settings { get; set; }
+        public ISettings Settings { get; set; }
 
         private NormalizerSettings settings => (NormalizerSettings) Settings;
 
@@ -27,9 +27,14 @@ namespace Mp3Tagger.Kernel.Features
             Initialize(new NormalizerSettings());
         }
 
-        public void Initialize(IFeatureSettings settings)
+        public void Initialize(ISettings settings)
         {
             Settings = settings;
+        }
+
+        public void Initialize(FeaturesSettings currentSettingsFeatures)
+        {
+            Initialize(currentSettingsFeatures.Normalizer);
         }
 
         public async Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback)

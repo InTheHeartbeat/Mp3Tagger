@@ -15,7 +15,7 @@ namespace Mp3Tagger.Kernel.Features.IO
         private readonly FileSystemWalkerSettings fileSystemWalkerSettings;
 
         public string Name { get; set; }
-        public IFeatureSettings Settings { get; private set; }
+        public ISettings Settings { get; private set; }
 
         private FileSystemWalkerSettings settings => (FileSystemWalkerSettings) Settings;        
 
@@ -25,15 +25,20 @@ namespace Mp3Tagger.Kernel.Features.IO
             Name = "File system walker";
         }
 
-        public void Initialize(IFeatureSettings settings)
+        public void Initialize(ISettings settings)
         {
             Settings = settings;
+        }
+
+        public void Initialize(FeaturesSettings currentSettingsFeatures)
+        {
+            Initialize(currentSettingsFeatures.FileSystemWalker);
         }
 
         public async Task ApplyToList(List<FileInfo> list, Action<FeatureProcessReport> progressUpdatedCallback)
         {
             FeatureProcessReport processReport = new FeatureProcessReport();
-            await Task.Run(() => WalkDirectoryTree(new DirectoryInfo(settings.Root), list.Add,progressUpdatedCallback, processReport));            
+            await Task.Run(() => settings.Roots.ToList().ForEach(root=>WalkDirectoryTree(new DirectoryInfo(root), list.Add, progressUpdatedCallback, processReport)));            
         }
 
         private void WalkDirectoryTree(DirectoryInfo root, Action<FileInfo> searched, Action<FeatureProcessReport> progressUpdatedCallback, FeatureProcessReport processReport)

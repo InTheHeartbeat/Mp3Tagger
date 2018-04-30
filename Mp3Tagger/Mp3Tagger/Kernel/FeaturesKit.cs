@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Enums;
 using Mp3Tagger.Kernel.Features;
 using Mp3Tagger.Kernel.Features.IO;
 using Mp3Tagger.Kernel.Interfaces;
-using Mp3Tagger.Kernel.Settings;
 using Mp3Tagger.Kernel.Settings.Features;
 
 namespace Mp3Tagger.Kernel
 {
     public class FeaturesKit
     {
-        private List<FeatureKitEntry> features;
+        private List<FeatureKitEntry> _features;
 
         public FeaturesKit()
         {            
@@ -23,7 +19,7 @@ namespace Mp3Tagger.Kernel
 
         private void InitializeFeatures()
         {
-            features = new List<FeatureKitEntry>
+            _features = new List<FeatureKitEntry>
             {
                 new FeatureKitEntry(FeatureName.FileSystemWalker,new FileSystemWalker(new FileSystemWalkerSettings() {MinFileBytes = -1})),
                 new FeatureKitEntry(FeatureName.EncodingFixer,new EncodingFixer()),
@@ -33,19 +29,24 @@ namespace Mp3Tagger.Kernel
             };
         }
 
-        public void SetFeatureSettings(FeatureName featureName, IFeatureSettings settings)
+        public void SetFeatureSettings(FeatureName featureName, ISettings settings)
         {
-            features.FirstOrDefault(f=>f.Name == featureName)?.Feature.Initialize(settings);
+            _features.FirstOrDefault(f=>f.Name == featureName)?.Feature.Initialize(settings);
         }
 
         public FeatureKitEntry GetFeatureEntryByName(FeatureName featureName)
         {
-            return features.FirstOrDefault(f => f.Name == featureName);
+            return _features.FirstOrDefault(f => f.Name == featureName);
         }
 
         public FeatureKitEntry GetFeatureEntryByFeature(IFeature feature)
         {
-            return features.FirstOrDefault(f => f.Feature == feature);
+            return _features.FirstOrDefault(f => f.Feature == feature);
+        }
+
+        public void SetFeaturesSettings(FeaturesSettings currentSettingsFeatures)
+        {
+            _features.ForEach(feature=>feature.Feature.Initialize(currentSettingsFeatures));
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Mp3Tagger.Kernel.Presenters
 
         public async void OpenCompositions(string path)
         {
-            await Kernel.InitilizeCompositions(path);            
+            await Kernel.InitilizeCompositions(new[] {path});            
         }
 
         private void OnFeatureStarted(ProcessingState obj)

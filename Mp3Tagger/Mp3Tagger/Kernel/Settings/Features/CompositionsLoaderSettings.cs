@@ -11,7 +11,7 @@ using Mp3Tagger.Kernel.Interfaces;
 namespace Mp3Tagger.Kernel.Settings.Features
 {
     [Serializable]
-    public class CompositionsLoaderSettings:IFeatureSettings
+    public class CompositionsLoaderSettings:ISettings
     {
 
         [Browsable(false)]

@@ -100,7 +100,7 @@
                           Foreground="Black"
                                                     
                           MaxColumnWidth="300"                          
-                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}" ColumnWidth="Auto" SelectionChanged="CompositionsDataGrid_SelectionChanged">
+                          ItemsSource="{Binding Path=DataGridModel.Compositions, Converter={StaticResource CompostionsListToDataGridCompositionsListConverter}, Mode=OneWay}" ColumnWidth="Auto" SelectionChanged="CompositionsDataGrid_SelectionChanged" AutoGeneratingColumn="CompositionsDataGrid_AutoGeneratingColumn">
                    
                 </DataGrid>
 

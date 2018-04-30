@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Mp3Tagger.Kernel.Interfaces;
 using Mp3Tagger.Kernel.Models;
 using Mp3Tagger.Kernel.Processing;
+using Mp3Tagger.Kernel.Settings.Features;
 using Mp3Tagger.Models;
 
 namespace Mp3Tagger.Kernel.Features
@@ -13,16 +14,21 @@ namespace Mp3Tagger.Kernel.Features
     public class EncodingFixer : IProcessingFeature
     {
         public string Name { get; set; }
-        public IFeatureSettings Settings { get; private set; }
+        public ISettings Settings { get; private set; }
                 
         public EncodingFixer()
         {
             Name = "Encoding fixing";
         }
 
-        public void Initialize(IFeatureSettings settings)
+        public void Initialize(ISettings settings)
         {
             Settings = settings;
+        }
+
+        public void Initialize(FeaturesSettings currentSettingsFeatures)
+        {
+            Initialize(currentSettingsFeatures.EncodingFixer);
         }
 
         public async Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback)

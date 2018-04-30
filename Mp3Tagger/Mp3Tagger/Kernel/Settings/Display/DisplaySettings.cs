@@ -8,7 +8,7 @@ namespace Mp3Tagger.Kernel.Settings.Display
 {
     public class DisplaySettings
     {
-        public CompositionsDataGridDisplaySettings CompositionsDataGridDisplay { get; set; }
+        public CompositionsDataGridDisplaySettings CompositionsGrid { get; set; }
 
         public DisplaySettings()
         {
@@ -17,8 +17,8 @@ namespace Mp3Tagger.Kernel.Settings.Display
 
         public void InitializeByDefault()
         {
-            CompositionsDataGridDisplay = new CompositionsDataGridDisplaySettings();        
-            CompositionsDataGridDisplay.InitializeByDefault();
+            CompositionsGrid = new CompositionsDataGridDisplaySettings();        
+            CompositionsGrid.InitializeByDefault();
         }
     }
 }

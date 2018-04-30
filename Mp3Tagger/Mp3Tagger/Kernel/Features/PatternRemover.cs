@@ -18,7 +18,7 @@ namespace Mp3Tagger.Kernel.Features
     public class PatternRemover : IProcessingFeature
     {
         public string Name { get; set; }
-        public IFeatureSettings Settings { get; private set; }
+        public ISettings Settings { get; private set; }
 
         private PatternRemoverSettings settings => (PatternRemoverSettings) Settings;
 
@@ -28,9 +28,14 @@ namespace Mp3Tagger.Kernel.Features
             Name = "Pattern remover";
         }
 
-        public void Initialize(IFeatureSettings settings)
+        public void Initialize(ISettings settings)
         {
             Settings = settings;
+        }
+
+        public void Initialize(FeaturesSettings currentSettingsFeatures)
+        {
+            Initialize(currentSettingsFeatures.PatternRemover);
         }
 
         public async Task ApplyToList(ObservableCollection<Composition> list, Action<FeatureProcessReport> progressUpdatedCallback)

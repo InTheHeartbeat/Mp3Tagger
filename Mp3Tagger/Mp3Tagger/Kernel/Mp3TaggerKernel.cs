@@ -21,9 +21,10 @@ namespace Mp3Tagger.Kernel
     public class Mp3TaggerKernel
     {
         public ObservableCollection<Composition> Compositions;
-        
-        public HistoryKeeper HistoryKeeper { get; private set; }
        
+        public SettingsProvider SettingsProvider { get; private set; }
+
+        public HistoryKeeper HistoryKeeper { get; private set; }     
         public FeaturesKit Features { get; private set; }
 
         public ProcessingFeatureRunner ProcessingFeatureRunner { get; private set; }
@@ -40,10 +41,21 @@ namespace Mp3Tagger.Kernel
 
         private void Initialize()
         {            
-            HistoryKeeper = new HistoryKeeper();
+            SettingsProvider = new SettingsProvider();                        
+            
+            InitializeFeatures();
+            InitializeFeatureRunners();
+            InitializeHistoryKeeper();
+        }
+
+        private void InitializeFeatures()
+        {
             Features = new FeaturesKit();
-            ProcessingFeatureRunner = new ProcessingFeatureRunner();
-            IoFeatureRunner = new IOFeatureRunner();
+            Features.SetFeaturesSettings(SettingsProvider.CurrentSettings.Features);
+        }
+        private void InitializeHistoryKeeper()
+        {
+            HistoryKeeper = new HistoryKeeper();
 
             ProcessingFeatureRunner.ProcessingCompleted +=
                 (state) =>
@@ -56,6 +68,7 @@ namespace Mp3Tagger.Kernel
                         });
                     OnProcessingStateChanged(ProcessingFeatureRunner.CurrentState);
                 };
+
             IoFeatureRunner.ProcessingCompleted +=
                 (state) =>
                 {
@@ -67,25 +80,37 @@ namespace Mp3Tagger.Kernel
                         });
                     OnProcessingStateChanged(IoFeatureRunner.CurrentState);
                 };
+        }
+        private void InitializeFeatureRunners()
+        {
+            ProcessingFeatureRunner = new ProcessingFeatureRunner();
+            IoFeatureRunner = new IOFeatureRunner();
+
 
             ProcessingFeatureRunner.ProcessingStateUpdated +=
                 report => OnProcessingStateChanged(ProcessingFeatureRunner.CurrentState);
             IoFeatureRunner.ProcessingStateUpdated += report => OnProcessingStateChanged(IoFeatureRunner.CurrentState);
         }
 
-        public async Task InitilizeCompositions(string path)
+        public async Task InitilizeCompositions(string[] roots)
         {
             Compositions = new ObservableCollection<Composition>();
 
             List<FileInfo> searchedFiles = new List<FileInfo>();
-            
-            Features.SetFeatureSettings(FeatureName.FileSystemWalker, new FileSystemWalkerSettings() {Root = path});
 
+            FileSystemWalkerSettings settings =
+                (FileSystemWalkerSettings) Features.GetFeatureEntryByName(FeatureName.FileSystemWalker).Feature.Settings;
+
+            settings.Roots = roots;
+            
+            Features.SetFeatureSettings(FeatureName.FileSystemWalker, settings);
             await IoFeatureRunner.PerformProcessorByList(searchedFiles,
                 (IIOFeature) Features.GetFeatureEntryByName(FeatureName.FileSystemWalker).Feature);
-                                                
-            CompositionsLoader compositionsLoader = (CompositionsLoader)Features.GetFeatureEntryByName(FeatureName.CompositionLoader).Feature;
-            compositionsLoader.Initialize(new CompositionsLoaderSettings(),searchedFiles);
+
+            CompositionsLoader compositionsLoader =
+                (CompositionsLoader) Features.GetFeatureEntryByName(FeatureName.CompositionLoader).Feature;
+            compositionsLoader.InitializeFiles(searchedFiles);
+
             await ProcessingFeatureRunner.PerformProcessorByList(Compositions, compositionsLoader);                                    
         } 
 

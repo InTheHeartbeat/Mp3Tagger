@@ -10,7 +10,7 @@ using Mp3Tagger.Kernel.Models;
 namespace Mp3Tagger.Kernel.Settings.Features
 {
     [Serializable]
-    public class NormalizerSettings : IFeatureSettings
+    public class NormalizerSettings : ISettings
     {
         public bool Trimming { get; set; }
         public bool ChangeCase { get; set; }

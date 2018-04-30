@@ -12,6 +12,7 @@ namespace Mp3Tagger.Kernel.Settings.Features
         public CompositionsLoaderSettings CompositionsLoader { get; set; }
         public FileSystemWalkerSettings FileSystemWalker { get; set; }
         public PatternRemoverSettings PatternRemover { get; set; }
+        public EncodingFixerSettings EncodingFixer { get; set; }
 
         public FeaturesSettings()
         {
@@ -24,11 +25,13 @@ namespace Mp3Tagger.Kernel.Settings.Features
             CompositionsLoader = new CompositionsLoaderSettings();
             FileSystemWalker = new FileSystemWalkerSettings();
             PatternRemover = new PatternRemoverSettings();
+            EncodingFixer = new EncodingFixerSettings();
 
             Normalizer.InitializeByDefault();
             CompositionsLoader.InitializeByDefault();
             FileSystemWalker.InitializeByDefault();
             PatternRemover.InitializeByDefault();
+            EncodingFixer.InitializeByDefault();
         }
     }
 }
