@@ -29,8 +29,10 @@ namespace Mp3Tagger.Kernel.Features
         {
             FeatureProcessReport progressReport = new FeatureProcessReport
             {
-                TotalOperations = list.Count                
+                TotalOperations = list.Count
             };
+
+            //ToDo:01-05-2018:fonblaser: Consider removing intermediate await of synchronous operation
             await Task.Run(() =>
             {
                 for (var index = 0; index < list.Count; index++)
@@ -39,7 +41,7 @@ namespace Mp3Tagger.Kernel.Features
                     ApplyToComposition(list[index]);
                     progressUpdatedCallback(progressReport);
                 }
-            });            
+            });
         }
 
         public void ApplyToComposition(Composition composition)
@@ -52,18 +54,9 @@ namespace Mp3Tagger.Kernel.Features
             composition.Conductor = ToUtf8(composition.Conductor);
             composition.Copyright = ToUtf8(composition.Copyright);
             composition.Grouping = ToUtf8(composition.Grouping);
-            for (var i = 0; i < composition.AlbumArtists.Length; i++)
-            {
-                composition.AlbumArtists[i] = ToUtf8(composition.AlbumArtists[i]);
-            }
-            for (var i = 0; i < composition.Composers.Length; i++)
-            {
-                composition.Composers[i] = ToUtf8(composition.Composers[i]);
-            }
-            for (var i = 0; i < composition.Genres.Length; i++)
-            {
-                composition.Genres[i] = ToUtf8(composition.Genres[i]);
-            }            
+            composition.AlbumArtists = composition.AlbumArtists.Select(ToUtf8).ToArray();
+            composition.Composers = composition.Composers.Select(ToUtf8).ToArray();
+            composition.Genres = composition.Genres.Select(ToUtf8).ToArray();
         }
 
         private string ToUtf8(string unknown)
